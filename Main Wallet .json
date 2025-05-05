@@ -1,0 +1,30 @@
+{
+  "version" : 3,
+  "crypto" : {
+    "ciphertext" : "1bb1ebe98c13d675df05d5d90348ba0272719e3857e052f834b3a3b1bcc7d6b774fd9d84eedcb77ebfc65ead2813e341584b3fb5b0204f86f8d8d612f2961bdd2a0fc192657364a3f30d487425f4a4c93f",
+    "cipherparams" : {
+      "iv" : "84c2f10b0594e729607716d831aa8e08"
+    },
+    "kdf" : "scrypt",
+    "kdfparams" : {
+      "r" : 8,
+      "p" : 4,
+      "n" : 16384,
+      "dklen" : 32,
+      "salt" : "cd387cd8493898acdfe3d3c636e1df421c5fc1e26010878557f79e864d295148"
+    },
+    "mac" : "2ad84611d6d35b894497817a57d35799fb072e6df52a8a9dc2aa83073d644f64",
+    "cipher" : "aes-128-ctr"
+  },
+  "id" : "e489f955-1467-4d6e-8c8d-018adcdc3bcd",
+  "activeAccounts" : [
+    {
+      "publicKey" : "04d2255a138565a510c8567886abcfb1fa2419b30f5d1e8e06ba1185f18ab51460bc6dbefaaa8e79fb313e09cdfb643725076db8f7977e5735f1fff9c98c8dc804",
+      "coin" : 60,
+      "derivationPath" : "m\/44'\/60'\/0'\/0\/0",
+      "address" : "0x9D06eA2C8A8aADc54c97D63BcB6AF0df6204867B"
+    }
+  ],
+  "name" : "Main Wallet ",
+  "type" : "mnemonic"
+}
