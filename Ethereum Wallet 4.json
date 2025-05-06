@@ -1,0 +1,30 @@
+{
+  "version" : 3,
+  "crypto" : {
+    "ciphertext" : "d44c6f6cd7e5d1e879e3e435a473d0180ae037860e64d20f994a92de4b758508",
+    "cipherparams" : {
+      "iv" : "ea0be70a56d80fefb455f95aae2671c9"
+    },
+    "kdf" : "scrypt",
+    "kdfparams" : {
+      "r" : 8,
+      "p" : 4,
+      "n" : 16384,
+      "dklen" : 32,
+      "salt" : "a4de92100e743913d85d9360f242dceb926f69ef36b8295b2a1b4fa05fd233c4"
+    },
+    "mac" : "b51824be30ef883d693436439f0a1697104b6a312d1e87364090302f5eedaa6d",
+    "cipher" : "aes-128-ctr"
+  },
+  "id" : "49287ff3-8047-40c0-a2b3-a724c6afaadf",
+  "activeAccounts" : [
+    {
+      "publicKey" : "04f57de6f90d8852442353968de2037944145252ad996b35d5160beebc0b2cef8febadbec9f5c078f641f3b8f009e7468e23d60f5a275c77df037ec6f96a33bb3a",
+      "coin" : 60,
+      "derivationPath" : "m\/44'\/60'\/0'\/0\/0",
+      "address" : "0x4214178cbD8645b93EF1B031E9c481e6eC4eE98d"
+    }
+  ],
+  "name" : "Ethereum Wallet 4",
+  "type" : "private-key"
+}
