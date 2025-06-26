@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>elparadisogonzalo dApp</title>
+</head>
+<body>
+  <h2>🔐 Connect MetaMask</h2>
+  <button id="connect">Connect Wallet</button>
+  <p id="status"></p>
+
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script>
+    document.getElementById('connect').onclick = async () => {
+      if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+        try {
+          await ethereum.request({ method: 'eth_requestAccounts' });
+          const accounts = await web3.eth.getAccounts();
+          document.getElementById('status').innerText = "Connected: " + accounts[0];
+        } catch (err) {
+          document.getElementById('status').innerText = "Connection rejected.";
+        }
+      } else {
+        document.getElementById('status').innerText = "MetaMask not detected.";
+      }
+    };
+  </script>
+</body>
+</html>
