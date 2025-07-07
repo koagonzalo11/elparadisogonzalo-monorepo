@@ -29,7 +29,7 @@ jobs:
       # Optionally add IPFS deployment here
       # - name: Upload to IPFS
       #   run: |
-      #     npx ipfs-deploy ./frontend/dist
+      #     npx ipfs-deploy ./frontend/
 
       - name: Deploy Success
         run: echo "✅ Build finished. Ready to deploy manually to IPFS."
