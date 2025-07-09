@@ -25,7 +25,9 @@ jobs:
       - name: Build dApp
         run: npm run build
         working-directory: ./frontend
-
+        
+      - name: Attest Build Provenance
+  uses: actions/attest-build-provenance@v2.4.0
       # Optionally add IPFS deployment here
       # - name: Upload to IPFS
       #   run: |
