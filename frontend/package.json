@@ -1,52 +1,14 @@
 {
   "name": "elparadisogonzalo-dapp",
-  "version": "1.1.0",
-  "description": "MetaMask-integrated dApp frontend for elparadisogonzalo",
-  "main": "index.js",
-  "type": "commonjs",
+  "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "start": "python3 -m http.server 8080 --bind 127.0.0.1"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@unstoppabledomains/resolution": "^9.3.3",
-    "aes-js": "^4.0.0-beta.5",
-    "body-parser": "^2.2.0",
-    "crypto": "^1.0.1",
-    "esbuild-wasm": "^0.19.11",
-    "ethers": "^6.15.0",
-    "express": "^5.1.0",
-    "fdir": "^6.4.6",
-    "nanoid": "^3.3.11",
-    "picocolors": "^1.1.1",
-    "picomatch": "^4.0.2",
-    "postcss": "^8.5.6",
-    "rollup": "^4.44.2",
-    "source-map-js": "^1.2.1",
-    "tinyglobby": "^0.2.14",
-    "tslib": "^2.7.0",
-    "undici-types": "^7.8.0",
-    "vite": "^7.0.2",
-    "web3": "^4.16.0",
-    "ws": "^8.17.1"
-  },
-  "keywords": [
-    "web3",
-    "metamask",
-    "dapp",
-    "ethereum",
-    "elparadisogonzalo"
-  ],
-  "author": "koagonzalo11",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git"
-  },
-  "bugs": {
-    "url": "https://github.com/koagonzalo11/elparadisogonzalo-monorepo/issues"
-  },
-  "homepage": "https://github.com/koagonzalo11/elparadisogonzalo-monorepo#readme"
+    "vite": "^5.2.0",
+    "esbuild-wasm": "^0.19.11"
+  }
 }
