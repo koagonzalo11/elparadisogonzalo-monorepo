@@ -1,38 +1,3 @@
-ls contracts/Safe.sol
-head -n 5 contracts/Safe.sol
-nano hardhat.config.js
-npx hardhat clean
-npx hardhat compile
-cat hardhat.config.js
-nano hardhat.config.js
-npx hardhat clean
-npx hardhat compile
-rm -rf node_modules package-lock.json
-npm install --save-dev hardhat
-npm install --save-dev @nomicfoundation/hardhat-toolbox
-npx hardhat clean
-npx hardhat compile
-jq '.abi' artifacts/contracts/Safe.sol/Safe.json
-rm -rf node_modules package-lock.json artifacts cache hardhat.config.* tsconfig.json
-npm init -y
-npm install --save-dev hardhat
-npx hardhat
-rm -rf contracts/* test/*
-mv path/to/your/Safe.sol contracts/
-contracts/Safe.sol
-ls contracts
-jq '.abi' artifacts/contracts/Safe.sol/Safe.json > abi.json
-nano contracts/Safe.sol
-npx hardhat compile
-jq '.abi' artifacts/contracts/Safe.sol/Safe.json > abi.json
-cat abi.json
-ls contracts
-jq '.abi' artifacts/contracts/Safe.sol/Safe.json > abi.json
-cat abi.json
-head -n 10 contracts/Safe.sol
-nano contracts/Safe.sol
-npx hardhat compile
-jq '.abi' artifacts/contracts/Safe.sol/Safe.json > abi.json
 cat abi.json
 rm -rf node_modules package-lock.json artifacts cache
 npz hardhat init
@@ -498,3 +463,39 @@ ls
 rm -rf ~/.cache/*
 rm -rf ~/../usr/var/cache/*
 git push origin main --force
+df -h
+pkg clean
+rm -rf ~/.npm/_cacache
+rm -rf ~/.npm/_logs
+rm -rf ~/.yarn-cache # (if present)
+du -ah ~ | sort -rh | head -n 20
+rm -rf ~/elparadisogonzalo-monorepo/.git
+git init  # reset it fresh
+tar -czf /sdcard/monorepo.tar.gz ~/elparadisogonzalo-monorepo
+rm -rf ~/elparadisogonzalo-monorepo
+nano gitignore
+nano .gitignore
+df -h
+rm -rf ~/.git
+rm -rf ~/repos/elparadisogonzalo.git
+rm -rf ~/compiled_contracts_*
+rm -rf ~/logs/
+df -h
+cd ~/elparadisogonzalo-monorepo
+rm -rf .git
+git init
+git remote add origin https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+git add .
+git commit -m "Clean reset with working automation"
+git branch -M main
+git push -f origin main
+npx hardhat clean
+npx hardhat compile --force
+pip install slither-analyzer
+pip install eth-hash[pycryptodome]
+pip install --upgrade eth-hash[pycryptodome]
+pip show eth-hash pycryptodome
+pip install pycryptodome eth-hash[pycryptodome]
+python3 -m venv --system-site-packages venv
+source venv/bin/activate
+pytho
