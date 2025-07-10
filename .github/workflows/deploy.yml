@@ -1,107 +1,42 @@
-<<<<<<< HEAD
-  name: Deploy dApp
-=======
-name: Deploy frontend to GitHub Pages
->>>>>>> master
+name: Deploy Frontend to IPFS
 
 on:
   push:
     branches:
       - main
 
-<<<<<<< HEAD
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-
-=======
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
->>>>>>> master
+
     steps:
-      - name: Checkout repo
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-<<<<<<< HEAD
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./frontend
-
-      - name: Build dApp
-        run: npm run build
-        working-directory: ./frontend
-        
-      - name: Attest Build Provenance
-  uses: actions/attest-build-provenance@v2.4.0
-      # Optionally add IPFS deployment here
-      # - name: Upload to IPFS
-      #   run: |
-      #     npx ipfs-deploy ./frontend/
-
-      - name: Deploy Success
-        run: echo "✅ Build finished. Ready to deploy manually to IPFS."
-=======
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - name: Upload frontend folder
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: frontend
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2name: Deploy dApp to GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
+      - name: 📦 Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install || true  # In case there’s no package.json
+      - name: 🧪 Install dependencies
+        run: npm install
+        working-directory: frontend
 
-      - name: Copy frontend to public
-        run: |
-          mkdir public
-          cp -r frontend/* public/
+      - name: 🏗 Build project
+        run: npm run build
+        working-directory: frontend
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
->>>>>>> master
+      - name: 🚀 Upload to IPFS via Pinata
+        run: |
+          curl -X POST https://api.pinata.cloud/pinning/pinFileToIPFS \
+            -H "Authorization: Bearer ${{ secrets.PINATA_JWT }}" \
+            -F "file=@frontend/dist/index.html" \
+            -F "file=@frontend/dist/assets"
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+
+      - name: 🔁 Update UD domain with new CID
+        run: node ./scripts/update-domain.js
+        env:
+          UD_API_KEY: ${{ secrets.UD_API_KEY }}
+          DOMAIN: elparadisogonzalo.com
