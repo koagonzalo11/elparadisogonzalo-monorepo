@@ -1,18 +1,38 @@
+<<<<<<< HEAD
   name: Deploy dApp
+=======
+name: Deploy frontend to GitHub Pages
+>>>>>>> master
 
 on:
   push:
     branches:
       - main
 
+<<<<<<< HEAD
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+=======
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+>>>>>>> master
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+<<<<<<< HEAD
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -35,3 +55,53 @@ jobs:
 
       - name: Deploy Success
         run: echo "✅ Build finished. Ready to deploy manually to IPFS."
+=======
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload frontend folder
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: frontend
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v2name: Deploy dApp to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install || true  # In case there’s no package.json
+
+      - name: Copy frontend to public
+        run: |
+          mkdir public
+          cp -r frontend/* public/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+>>>>>>> master

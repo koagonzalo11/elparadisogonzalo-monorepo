@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "frontend",
   "version": "1.0.0",
@@ -34,4 +35,30 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs"
+=======
+"repository": {
+  "type": "git",
+  "url": "git+https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git"
+},
+"bugs": {
+  "url": "https://github.com/koagonzalo11/elparadisogonzalo-monorepo/issues"
+},
+"homepage": "https://github.com/koagonzalo11/elparadisogonzalo-monorepo#readme"{
+  "name": "elparadisogonzalo-dapp",
+  "version": "1.1.0",
+  "description": "MetaMask-integrated dApp frontend for elparadisogonzalo",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8080 --bind 127.0.0.1"
+  },
+  "keywords": [
+    "web3",
+    "metamask",
+    "dapp",
+    "ethereum",
+    "elparadisogonzalo"
+  ],
+  "author": "koagonzalo11",
+  "license": "MIT"
+>>>>>>> master
 }
