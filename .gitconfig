@@ -1,0 +1,11 @@
+[user]
+	name = Koagonzalo11
+	email = azehagowa@gmail.com
+[push]
+	autoSetupRemote = true
+[advice]
+	addEmbeddedRepo = false
+[http]
+	cookiefile = /data/data/com.termux/files/home/.gitcookies
+[safe]
+	directory = /storage/emulated/0/Download
