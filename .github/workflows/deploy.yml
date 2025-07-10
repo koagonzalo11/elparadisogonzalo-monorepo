@@ -1,4 +1,4 @@
-name: Deploy Frontend to IPFS
+name: 🚀 Deploy dApp to IPFS and update UD
 
 on:
   push:
@@ -7,36 +7,47 @@ on:
 
 jobs:
   deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
+      - name: 📥 Checkout repo
         uses: actions/checkout@v4
 
-      - name: 📦 Set up Node.js
+      - name: 🧰 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: 🧪 Install dependencies
+      - name: 📦 Install dependencies
         run: npm install
         working-directory: frontend
 
-      - name: 🏗 Build project
+      - name: 🛠 Build frontend
         run: npm run build
         working-directory: frontend
 
-      - name: 🚀 Upload to IPFS via Pinata
+      - name: 📤 Upload to IPFS (via Pinata)
+        id: ipfs
         run: |
-          curl -X POST https://api.pinata.cloud/pinning/pinFileToIPFS \
+          mkdir packaged
+          cd frontend/dist
+          zip -r ../../packaged/build.zip .
+          cd ../../
+          CID=$(curl -s -X POST https://api.pinata.cloud/pinning/pinFileToIPFS \
             -H "Authorization: Bearer ${{ secrets.PINATA_JWT }}" \
-            -F "file=@frontend/dist/index.html" \
-            -F "file=@frontend/dist/assets"
+            -F "file=@packaged/build.zip" | jq -r '.IpfsHash')
+          echo "CID=$CID" >> $GITHUB_OUTPUT
         env:
           PINATA_JWT: ${{ secrets.PINATA_JWT }}
 
-      - name: 🔁 Update UD domain with new CID
-        run: node ./scripts/update-domain.js
+      - name: 🌐 Update Unstoppable Domain
+        run: |
+          echo "Updating domain with CID: ${{ steps.ipfs.outputs.CID }}"
+          curl -X PATCH https://api.unstoppabledomains.com/v1/domains/${{ secrets.UD_DOMAIN }}/records \
+            -H "Authorization: Bearer ${{ secrets.UD_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"records": {"ipfs.html.value": "${{ steps.ipfs.outputs.CID }}"}}'
         env:
           UD_API_KEY: ${{ secrets.UD_API_KEY }}
-          DOMAIN: elparadisogonzalo.com
+          UD_DOMAIN: elparadisogonzalo.com
