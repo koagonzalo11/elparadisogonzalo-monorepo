@@ -53,3 +53,18 @@
 11:49:10.600084 db@open done T·24.760692ms
 11:49:10.613503 db@close closing
 11:49:10.613641 db@close done T·132.077µs
+=============== Jul 11, 2025 (UTC) ===============
+09:25:59.109963 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+09:25:59.112339 version@stat F·[3] S·1KiB[1KiB] Sc·[0.75]
+09:25:59.112445 db@open opening
+09:25:59.112652 journal@recovery F·2
+09:25:59.113609 journal@recovery recovering @11
+09:25:59.118148 journal@recovery recovering @82
+09:25:59.118605 version@stat F·[3] S·1KiB[1KiB] Sc·[0.75]
+09:25:59.131178 memdb@flush created L0@84 N·4 S·355B "/pi..NDE,v466":"/pi..rty,v464"
+09:25:59.132135 version@stat F·[4] S·2KiB[2KiB] Sc·[1.00]
+09:25:59.135214 db@janitor F·6 G·0
+09:25:59.135282 db@open done T·22.808846ms
+09:25:59.135454 table@compaction L0·4 -> L1·0 S·2KiB Q·468
+09:25:59.138706 table@build created L1@86 N·10 S·1KiB "/F5..ZHA,v6":"/pi..rty,v467"
+09:25:59.138858 version@stat F·[0 1] S·1KiB[0B 1KiB] Sc·[0.00 0.00]

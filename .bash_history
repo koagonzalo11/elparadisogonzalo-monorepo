@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ls
 cd
 ls -la
@@ -161,6 +162,8 @@ node deploy.js
 nano deploy.js
 node deploy.js
 nano deploy.js
+=======
+>>>>>>> c5f7e8e2c4 (🛠️ Prepare for rebase: deploy workflow added)
 node deploy.js
 npm install web3@1.10.0
 node deploy.js
@@ -505,5 +508,164 @@ pip show eth-hash pycryptodome
 pip install pycryptodome eth-hash[pycryptodome]
 python3 -m venv --system-site-packages venv
 source venv/bin/activate
+<<<<<<< HEAD
 pytho
 >>>>>>> origin/master
+=======
+pythocd
+curl -L -o esbuild https://github.com/evanw/esbuild/releases/download/v0.19.11/esbuild-linux-arm64
+chmod +x esbuild
+./esbuild --version
+cd ~/frontend
+mkdir -p node_modules/esbuild/bin
+cd node_modules/esbuild/bin
+npm install --save-dev vite
+npm run build
+cd ~/frontend
+rm -rf node_modules/esbuild
+mkdir -p node_modules/esbuild/bin
+cd node_modules/esbuild/bin
+curl -L -o esbuild https://github.com/evanw/esbuild/releases/download/v0.19.11/esbuild-linux-arm64
+chmod +x esbuild
+cd ~/frontend/node_modules/esbuild/bin
+curl -L -o esbuild https://ipfs.io/ipfs/QmQs92f8Uj49GVzvUTohFbLoYFqyoWeYqEhPkJoAHfJmeW/esbuild-linux-arm64
+chmod +x esbuild
+npm install --save-dev vite
+cd ~/frontend/node_modules/vite/node_modules
+cd
+cd ~/frontend/node_modules/vite/node_modules
+cd ~/frontend
+rm -rf node_modules package-lock.json
+mkdir -p node_modules/esbuild/bin
+cd node_modules/esbuild/bin
+curl -L -o esbuild https://ipfs.io/ipfs/QmQs92f8Uj49GVzvUTohFbLoYFqyoWeYqEhPkJoAHfJmeW/esbuild-linux-arm64
+chmod +x esbuild
+cd ..
+echo '{}' > package.json
+cd ~/frontend
+mkdir -p node_modules/.bin
+ln -sf ../esbuild/bin/esbuild node_modules/.bin/esbuild
+npm install --save-dev vite --no-optional
+npm run build
+cd ~/frontend
+rm -rf node_modules package-lock.json
+npm install --save-dev vite --no-optional --ignore-scripts
+mkdir -p node_modules/esbuild/bin
+curl -L -o node_modules/esbuild/bin/esbuild https://ipfs.io/ipfs/QmQs92f8Uj49GVzvUTohFbLoYFqyoWeYqEhPkJoAHfJmeW/esbuild-linux-arm64
+chmod +x node_modules/esbuild/bin/esbuild
+echo '{}' > node_modules/esbuild/package.json
+mkdir -p node_modules/.bin
+ln -sf ../esbuild/bin/esbuild node_modules/.bin/esbuild
+npx vite build
+cd ~/frontend/node_modules/esbuild
+echo "export default {};" > index.js
+npx vite build
+nano nodemodules/esbuild/index.js
+rm -rf ~/frontend/node_modules/esbuild
+mkdir -p ~/frontend/node_modules/esbuild
+cd ~/frontend/node_modules/esbuild
+cat > ~/frontend/node_modules/esbuild/index.js << 'EOF'
+export function build() {
+  console.log("⚠️ esbuild.build() called — stubbed!");
+  return Promise.resolve({});
+}
+
+export function transform(code, options) {
+  console.log("⚠️ esbuild.transform() called — stubbed!");
+  return Promise.resolve({ code, map: "" });
+}
+
+export function formatMessages(messages) {
+  return Promise.resolve(messages);
+}
+
+export default {
+  build,
+  transform,
+  formatMessages,
+};
+EOF
+
+echo '{}' > package.json
+mkdir -p bin
+curl -L -o bin/esbuild https://ipfs.io/ipfs/QmQs92f8Uj49GVzvUTohFbLoYFqyoWeYqEhPkJoAHfJmeW/esbuild-linux-arm64
+chmod +x bin/esbuild
+cd ~/frontend
+npx vite build
+cd ~/frontend
+npm install rollup
+npx vite build
+npm install --no-optional --ignore-script
+cd ~/frontend
+npx vite build
+npm run build
+npm uninstall rollup
+npm install rollup@2.79.1
+git add .
+git commit -m "🔥 Working Termux frontend build using Rollup 2"
+git push origin main
+git pull --rebase origin main
+git add .
+git commit -m "💄 UI update: token image + build fix"
+git push origin main
+git pull --rebase origin main
+git push origin main
+git status
+git config --global credential.helper store
+git push origin main
+git pull --rebase origin main
+git add .
+cd
+git add .
+git commit -m "🛠️ Final UI + IPFS prep before rebase"
+git pull --rebase origin main
+git push origin main
+git checkout -b ipfs-deploy-fix
+git push origin ipfs-deploy-fix
+git push origin main
+git clone https://github.com/koagonzalo 11/elparadisogonzalo-monorepo.git
+cd elparadisogonzalo-monorepo
+git clone https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+cd elparadisogonzalo-monorepo
+git clone https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+cd elparadisogonzalo-monorepo
+git remote set-url origin https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+git push origin main
+git remote -v
+git push origin ipfs-deploy-fix
+git add .
+git commit -m "💄 UI update: token image + build fix"
+git remote -v
+git push origin main
+git config --global credential.helper store
+git push origin main
+git config --global credential.helper store
+git push origin main
+cd
+ls /sdcard/Download/
+cat 1738484946252_1.jpg
+find /sdcard -type f -iname "*paradiso*.png" 2>/dev/null
+cd
+find /sdcard -type f -iname "*paradiso*.png" 2>/dev/null
+find /sdcard -type f -iname "*0xparadiso-street.png*.png" 2>/dev/null
+find /sdcard -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) 2>/dev/null | grep -i "paradiso"
+git push origin ipfs-deploy
+remote -v
+git remote -v
+git checkout -b ipfs-deploy
+git push origin ipfs-deploy
+git auth user
+git push origin main
+nano .github/workflows/deploy.yml
+# 1. Create workflow directory (if it doesn't exist)
+mkdir -p .github/workflows
+# 2. Create the deploy workflow file
+nano .github/workflows/deploy.yml
+git add .github/workflows/deploy.yml
+git commit -m "🚀 Add deploy workflow: IPFS + Unstoppable Domains automation"
+git push origin main
+# 1. Create a new branch
+git checkout -b ipfs-deploy-workflow
+# 2. Push the new branch
+git push origin ipfs-deploy-workflow
+>>>>>>> c5f7e8e2c4 (🛠️ Prepare for rebase: deploy workflow added)
