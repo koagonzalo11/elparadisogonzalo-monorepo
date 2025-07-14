@@ -1,7 +1,5 @@
-<<<<<<< HEAD
+HEAD
 # elparadisogonzalo-monorepo
-=======
-# Elparadisogonzalo
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/koagonzalo11/elparadisogonzalo-monorepo?color=blue&style=flat-square)](https://github.com/koagonzalo11/elparadisogonzalo-monorepo) 
 [![GitHub issues](https://img.shields.io/github/issues/koagonzalo11/elparadisogonzalo-monorepo?color=orange&style=flat-square)](https://github.com/koagonzalo11/elparadisogonzalo-monorepo/issues) 
@@ -180,4 +178,4 @@ Feel free to submit issues and pull requests to improve the project! 🚀
 
 Made with ❤️ by koagonzalo 
  4b160da24b (Removed embedded Git repos and added to .gitignore)
->>>>>>> origin/master
+ origin/master
