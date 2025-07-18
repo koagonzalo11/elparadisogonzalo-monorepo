@@ -1,23 +1,27 @@
 version: 2
 updates:
-  - package-ecosystem: "mix"
-    directory: "/"
-    open-pull-requests-limit: 20
-    schedule:
-      interval: "live"
-
   - package-ecosystem: "npm"
-    directory: "/apps/block_scout_web/assets"
-    open-pull-requests-limit: 10
+    directory: "/"                        # root-level package.json
     schedule:
-      interval: "live"
+      interval: "daily"                   # can be "weekly", "monthly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "npm"
     ignore:
-      - dependency-name: "bootstrap"
-      - dependency-name: "web3"
-        versions: ["4.x"]
+      - dependency-name: "firebase"
+        versions: ["<10.0.0"]             # optional pinning
 
-  - package-ecosystem: "npm"
-    directory: "/apps/explorer"
-    open-pull-requests-limit: 10
+  - package-ecosystem: "mix"
+    directory: "/"                        # adjust if your Elixir app lives elsewhere
     schedule:
-      interval: "live"
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+    labels:
+      - "dependencies"
+      - "elixir"
