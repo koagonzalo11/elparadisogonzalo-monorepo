@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 node_modules/
 *.tar.gz
 *.zip
@@ -5,3 +6,17 @@ node_modules/
 Assets-backup/
 downloads/
 .bash_history
+=======
+**/.DS_Store
+.idea
+.vscode/
+*~
+*.txt
+.env
+.env.test
+bin/
+workingcopy
+npm
+node.js
+.env
+>>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
