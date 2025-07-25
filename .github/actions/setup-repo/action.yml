@@ -1,3 +1,4 @@
+runs-on: self-hosted
 name: 'Setup repo'
 description: 'Setup repo: checkout/login/extract metadata, Set up Docker Buildx'
 inputs:
