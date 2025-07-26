@@ -2,13 +2,18 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-<<<<<<< HEAD
+ HEAD
+ HEAD
 labels: ''
 assignees: ''
 =======
 labels: 'Type: New Feature'
 assignees: leedaniil
->>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+ 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+=======
+labels: ''
+assignees: ''
+ 04fc1bb49 (Update .gitcookies)
 
 ---
 

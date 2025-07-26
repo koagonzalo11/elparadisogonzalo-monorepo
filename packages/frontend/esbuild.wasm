@@ -1,0 +1,19 @@
+import { defineConfig } from 'vite'
+import esbuild from 'esbuild-wasm'  // instead of 'esbuild'
+
+export default defineConfig({
+  base: './',
+  build: {
+    outDir: 'dist',
+    target: 'esnext', // or 'es2020' if you want broader compatibility
+    rollupOptions: {
+      // ... other options
+    },
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      // if needed
+      plugins: [],
+    },
+  },
+})

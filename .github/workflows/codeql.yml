@@ -9,17 +9,21 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-<<<<<<< HEAD
+HEAD
 name: "CodeQL Advanced"
-=======
+
 name: "CodeQL"
 
->>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+ 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+
+name: "CodeQL Advanced"
+ 04fc1bb49 (Update .gitcookies)
 on:
   push:
     branches: [ "master" ]
   pull_request:
-<<<<<<< HEAD
+ HEAD
+ 04fc1bb49 (Update .gitcookies)
     branches: [ "master" ]
   schedule:
 jobs:
@@ -41,7 +45,8 @@ jobs:
       # only required for workflows in private repositories
       actions: read
       contents: read
-=======
+ HEAD
+
     # The branches below must be a subset of the branches above
     branches: [ "master" ]
   schedule:
@@ -55,12 +60,16 @@ jobs:
       actions: read
       contents: read
       security-events: write
->>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+ 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+ 04fc1bb49 (Update .gitcookies)
 
     strategy:
       fail-fast: false
       matrix:
+ HEAD
 <<<<<<< HEAD
+=======
+>>>>>>> 04fc1bb49 (Update .gitcookies)
         include:
         - language: javascript-typescript
           build-mode: none
@@ -82,6 +91,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
+<<<<<<< HEAD
 =======
         language: [ 'go' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
@@ -99,11 +109,16 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 >>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+=======
+>>>>>>> 04fc1bb49 (Update .gitcookies)
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 04fc1bb49 (Update .gitcookies)
         # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
 
@@ -125,6 +140,7 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+<<<<<<< HEAD
 =======
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         # queries: security-extended,security-and-quality
@@ -135,5 +151,7 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
 >>>>>>> 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+=======
+>>>>>>> 04fc1bb49 (Update .gitcookies)
       with:
         category: "/language:${{matrix.language}}"

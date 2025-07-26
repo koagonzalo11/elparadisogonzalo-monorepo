@@ -1,4 +1,20 @@
  HEAD
+# Elparadisogonzalo Monorepo
+
+![GPG Verified](https://img.shields.io/badge/commits-GPG%20verified-26a641?logo=gnupg&logoColor=white)
+![Build](https://img.shields.io/github/actions/workflow/status/koagonzalo11/elparadisogonzalo-monorepo/ci.yml)
+![License](https://img.shields.io/github/license/koagonzalo11/elparadisogonzalo-monorepo)
+
+> A monorepo for Web3 tools, APIs, and decentralized hosting on elparadisogonzalo.com## 🔐 GPG Commit Signing
+
+All commits in this project are GPG-signed and verified.
+
+**GPG Key Fingerprint:** `0x1234ABCD`  
+**Key Owner:** [@koagonzalo11](https://github.com/koagonzalo11)  
+**Public Key:** [`gpg-public.asc`](./gpg-public.asc)  
+**Revocation Cert:** [`revocation-cert.asc`](./revocation-cert.asc)  
+✅ GitHub shows a **Verified** badge on commits signed by this key. HEAD
+ 04fc1bb49 (Update .gitcookies)
 # elparadisogonzalo-monorepo
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/koagonzalo11/elparadisogonzalo-monorepo?color=blue&style=flat-square)](https://github.com/koagonzalo11/elparadisogonzalo-monorepo) 

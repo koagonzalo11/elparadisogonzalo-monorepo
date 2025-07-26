@@ -1,4 +1,6 @@
 HEAD
+
+ 04fc1bb49 (Update .gitcookies)
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -19,13 +21,18 @@ updates:
   - package-ecosystem: "mix"
     directory: "/"                        # adjust if your Elixir app lives elsewhere
     schedule:
+HEAD
       interval: "weekly"
+
+      interval: "daily"
+04fc1bb49 (Update .gitcookies)
     open-pull-requests-limit: 5
     commit-message:
       prefix: "chore"
     labels:
       - "dependencies"
       - "elixir"
+ HEAD
 =======
 # To get started with Dependabot version updates, you'll need to specify which
 # package ecosystems to update and where the package manifests are located.
@@ -44,3 +51,5 @@ updates:
     schedule:
       interval: "weekly"
  80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
+=======
+>>>>>>> 04fc1bb49 (Update .gitcookies)

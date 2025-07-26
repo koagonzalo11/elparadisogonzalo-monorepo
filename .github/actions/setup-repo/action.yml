@@ -1,4 +1,7 @@
+ HEAD
 runs-on: self-hosted
+
+ 04fc1bb49 (Update .gitcookies)
 name: 'Setup repo'
 description: 'Setup repo: checkout/login/extract metadata, Set up Docker Buildx'
 inputs:
@@ -86,4 +89,8 @@ runs:
 
     - name: Add SHORT_SHA env property with commit short sha
       shell: bash
+ HEAD
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+ 04fc1bb49 (Update .gitcookies)

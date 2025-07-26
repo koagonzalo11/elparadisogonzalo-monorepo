@@ -1,0 +1,54 @@
+name: Deploy Frontend to IPFS & Update UD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛠 Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🔨 Build Vite app
+        run: npm run build --if-present
+
+      - name: 🧰 Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: 📤 Upload `dist` to IPFS via Pinata
+        id: upload
+        env:
+          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+          PINATA_API_SECRET: ${{ secrets.PINATA_API_SECRET }}
+        run: |
+          zip -r dist.zip dist
+          CID=$(curl -s -X POST "https://api.pinata.cloud/pinning/pinFileToIPFS" \
+            -H "pinata_api_key: $PINATA_API_KEY" \
+            -H "pinata_secret_api_key: $PINATA_API_SECRET" \
+            -F "file=@dist.zip" | jq -r '.IpfsHash')
+          echo "cid=$CID" >> $GITHUB_OUTPUT
+
+      - name: 🌐 Update Unstoppable Domain IPFS record
+        env:
+          UD_API_KEY: ${{ secrets.UD_API_KEY }}
+          CID: ${{ steps.upload.outputs.cid }}
+        run: |
+          curl -X PATCH "https://unstoppable.domains/api/v1/domains/elparadisogonzalo.crypto/records" \
+            -H "Authorization: Bearer $UD_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"records\": {
+                \"ipfs.html.value\": \"ipfs://$CID\"
+              }
+            }"
