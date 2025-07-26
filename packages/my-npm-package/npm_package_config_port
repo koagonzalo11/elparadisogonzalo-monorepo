@@ -1,0 +1,6 @@
+{
+  "name": "elparadisogonzalo-monorepo",
+  "config": {
+    "port": "8080"
+  }
+}
