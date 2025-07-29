@@ -1,46 +1,71 @@
 version: 2
 updates:
-  # ───────────── Node.js (npm/yarn) ─────────────
-  - package-ecosystem: "npm"
-    directory: "/"  # Root JS
-    schedule: { interval: "daily" }
 
+  # 🟢 Root Node.js Dependencies
   - package-ecosystem: "npm"
-    directory: "/packages/frontend"
-    schedule: { interval: "daily" }
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # 🟢 Sub-packages (Monorepo: Monitor, Backend, Frontend, Contracts)
+  - package-ecosystem: "npm"
+    directory: "/packages/monitor"
+    schedule:
+      interval: "daily"
 
   - package-ecosystem: "npm"
     directory: "/packages/backend"
-    schedule: { interval: "daily" }
+    schedule:
+      interval: "daily"
 
-  # ───────────── Python (pip) ─────────────
+  - package-ecosystem: "npm"
+    directory: "/packages/frontend"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/contracts"
+    schedule:
+      interval: "daily"
+
+  # 🐍 Python for iCloud tools or ML support
   - package-ecosystem: "pip"
-    directory: "/packages/api"  # or wherever requirements.txt is
-    schedule: { interval: "weekly" }
+    directory: "/packages/monitor"
+    schedule:
+      interval: "daily"
 
-  # ───────────── Rust (cargo) ─────────────
+  # 🦀 Rust (e.g., Foundry CLI or shared libraries)
   - package-ecosystem: "cargo"
-    directory: "/packages/rust"  # or adjust if Cargo.toml is elsewhere
-    schedule: { interval: "weekly" }
+    directory: "/packages/shared"
+    schedule:
+      interval: "daily"
 
-  # ───────────── Java (maven) ─────────────
-  - package-ecosystem: "maven"
-    directory: "/packages/java"  # adjust if pom.xml is elsewhere
-    schedule: { interval: "weekly" }
+  # 💻 Solidity (Hardhat/Foundry via npm)
+  - package-ecosystem: "npm"
+    directory: "/packages/contracts"
+    schedule:
+      interval: "daily"
 
-  # ───────────── Solidity (custom/hardhat) ─────────────
-  # Hardhat uses npm under the hood, so already covered above.
-  # But if using Foundry or other custom tools:
+  # ⚙️ GitHub Actions
   - package-ecosystem: "github-actions"
-    directory: "/contracts"
-    schedule: { interval: "weekly" }
+    directory: "/"
+    schedule:
+      interval: "daily"
 
-  # ───────────── Docker ─────────────
+  # 🐳 Docker (for any containers used for Cloudflare or gcloud)
   - package-ecosystem: "docker"
     directory: "/"
-    schedule: { interval: "weekly" }
+    schedule:
+      interval: "daily"
 
-  # ───────────── GitHub Actions ─────────────
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule: { interval: "weekly" }
+  # ☁️ Cloudflare via wrangler (npm)
+  - package-ecosystem: "npm"
+    directory: "/packages/backend"
+    schedule:
+      interval: "daily"
+
+  # ☁️ Google Cloud SDK (npm-based)
+  - package-ecosystem: "npm"
+    directory: "/packages/backend"
+    schedule:
+      interval: "daily"
