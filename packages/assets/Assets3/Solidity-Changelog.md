@@ -1,0 +1,1 @@
+This page moved to [https://github.com/ethereum/solidity/blob/develop/Changelog.md](https://github.com/ethereum/solidity/blob/develop/Changelog.md)

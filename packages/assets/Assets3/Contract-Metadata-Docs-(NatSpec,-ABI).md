@@ -1,0 +1,1 @@
+The best source of information for NatSpec is now the [Solidity documentation](https://solidity.readthedocs.io/en/latest/natspec-format.html)
