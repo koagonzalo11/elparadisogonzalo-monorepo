@@ -1,0 +1,27 @@
+name: 🔁 Update UD Domain IPFS Link
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  update-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔐 Set up secrets
+        env:
+          UD_API_KEY: ${{ secrets.UD_API_KEY }}
+          DOMAIN: elparadisogonzalo.com
+          CID_FILE: ./cid-latest.txt
+
+      - name: 📦 Read CID from file
+        id: cid
+        run: echo "CID=$(cat $CID_FILE)" >> $GITHUB_ENV
+
+      - name: 🌐 Update Unstoppable Domain
+        run: |
+          curl -X PATCH https://api.unstoppabledomains.com/v1/domains/$DOMAIN \
+            -H "Authorization: Bearer $UD_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"records\":{\"ipfs.html.value\":\"$CID\"}}"

@@ -1,0 +1,1 @@
+As part of an ongoing effort to update and overhaul the Ethereum wiki to make it more useful to our community, sharding information can nbow be found at the following location: [ethereum.org/sharding](https://ethereum.org/en/upgrades/shard-chains/#what-is-sharding)

@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+*.log
+*.lock
+dist/
+build/
+.npm/
+google-cloud-sdk/
+*.jar
+*.war
+

@@ -1,0 +1,71 @@
+version: 2
+updates:
+
+  # 🟢 Root Node.js Dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # 🟢 Sub-packages (Monorepo: Monitor, Backend, Frontend, Contracts)
+  - package-ecosystem: "npm"
+    directory: "/packages/monitor"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/backend"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/frontend"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/contracts"
+    schedule:
+      interval: "daily"
+
+  # 🐍 Python for iCloud tools or ML support
+  - package-ecosystem: "pip"
+    directory: "/packages/monitor"
+    schedule:
+      interval: "daily"
+
+  # 🦀 Rust (e.g., Foundry CLI or shared libraries)
+  - package-ecosystem: "cargo"
+    directory: "/packages/shared"
+    schedule:
+      interval: "daily"
+
+  # 💻 Solidity (Hardhat/Foundry via npm)
+  - package-ecosystem: "npm"
+    directory: "/packages/contracts"
+    schedule:
+      interval: "daily"
+
+  # ⚙️ GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # 🐳 Docker (for any containers used for Cloudflare or gcloud)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  # ☁️ Cloudflare via wrangler (npm)
+  - package-ecosystem: "npm"
+    directory: "/packages/backend"
+    schedule:
+      interval: "daily"
+
+  # ☁️ Google Cloud SDK (npm-based)
+  - package-ecosystem: "npm"
+    directory: "/packages/backend"
+    schedule:
+      interval: "daily"
