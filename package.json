@@ -33,4 +33,27 @@
     "url": "https://github.com/Elparadisogonzalo/Elparadisogonzalo-monorepo/issues"
   },
   "homepage": "https://elparadisogonzalo.github.io/"
+  "name": "webapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "ipfs-deploy": "pnpm run build && ipfs add -r dist && echo '✅ Deployed to IPFS!'"
+  },
+  "dependencies": {
+    "ethers": "6.15.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  }
 }
