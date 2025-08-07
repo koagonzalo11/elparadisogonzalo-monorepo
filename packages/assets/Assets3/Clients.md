@@ -1,1 +1,0 @@
-This page has been moved to [ethereum.org]([ethereum.org/clients](https://ethereum.org/develoeprs/docs/nodes-and-clients)).

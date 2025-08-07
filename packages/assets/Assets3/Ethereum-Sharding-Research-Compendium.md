@@ -1,1 +1,0 @@
-This page has now been deprecated, please visit [ethereum.org/scaling](https://ethereum.org/en/developers/docs/scaling/)

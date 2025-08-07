@@ -1,1 +1,0 @@
-As part of an ongoing effort to update and overhaul the Ethereum wiki to make it more useful to our community, this page has now been deprecated. information on scaling Ethereum can be found at [ethereum.org/scaling](https://ethereum.org/en/developers/docs/scaling).

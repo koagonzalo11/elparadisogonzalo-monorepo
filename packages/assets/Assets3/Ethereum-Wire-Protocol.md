@@ -1,1 +1,0 @@
-This page used to contain the Ethereum Wire Protocol specification, which has now moved to https://github.com/ethereum/devp2p/blob/master/caps/eth.md.

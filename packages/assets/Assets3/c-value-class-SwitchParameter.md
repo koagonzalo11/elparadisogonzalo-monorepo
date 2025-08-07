@@ -1,1 +1,0 @@
-The best resource for NatSpec documentation is [the Solidity documentation](https://solidity.readthedocs.io/en/latest/natspec-format.html).

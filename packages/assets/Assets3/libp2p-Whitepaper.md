@@ -1,1 +1,0 @@
-You can find more up to date content at [github.com/ethereum/devp2p](https://github.com/ethereum/devp2p) for specifications of current Ethereum protocols and [libp2p.org](https://libp2p.org) for the namesake protocol suite.

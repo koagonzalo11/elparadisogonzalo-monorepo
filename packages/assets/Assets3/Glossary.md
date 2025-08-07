@@ -1,1 +1,0 @@
-As part of an ongoing effort to update and overhaul the Ethereum wiki to make it more useful to our community, the glossary has moved to [ethereum.org/glossary](https://ethereum.org/en/glossary)

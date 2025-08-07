@@ -1,1 +1,0 @@
-As part of an ongoing effort to update and overhaul the Ethereum wiki to make it more useful to our community, this page has now been deprecated. Please visit [ethereum.org/nodes-and-clients](https://ethereum.org/developers/docs/nodes-and-clients) or the [geth docs](https://geth.ethereum.org).

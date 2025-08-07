@@ -1,1 +1,0 @@
-Please use [ethereum.org/white-paper](https://ethereum.org/whitepaper/#ethereum-whitepaper).
