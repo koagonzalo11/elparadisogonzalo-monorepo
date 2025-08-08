@@ -1,2 +1,66 @@
 big_data.csv filter=lfs diff=lfs merge=lfs -text
 video.mp4 filter=lfs diff=lfs merge=lfs -text
+########################################
+# 1. Line endings & text normalization
+########################################
+* text=auto
+# Force specific endings for certain file types
+*.sh text eol=lf
+*.bash text eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+########################################
+# 2. Binary files (no diffing/merging)
+########################################
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.7z binary
+*.exe binary
+*.dll binary
+*.so binary
+########################################
+# 3. Git LFS - Large file handling
+########################################
+# Store all large files in LFS (over ~100 MB)
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.mkv filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.tar.gz filter=lfs diff=lfs merge=lfs -text
+*.iso filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+########################################
+# 4. Merge conflict prevention
+########################################
+# Always keep our version for lockfiles
+package-lock.json merge=ours
+yarn.lock merge=ours
+*.lock merge=ours
+########################################
+# 5. Diff drivers (for readability)
+########################################
+*.md diff=markdown
+*.py diff=python
+*.js diff=javascript
+*.json diff=json
+*.yml diff=yaml
+*.yaml diff=yaml
+*.css diff=css
+*.html diff=html
+########################################
+# 6. Export rules
+########################################
+# Don’t include these in git archive exports
+.gitignore export-ignore
+.gitattributes export-ignore
+.github/ export-ignore
+docs/ export-ignore
+tests/ export-ignore
