@@ -1,8 +1,16 @@
 {
   "name": "contracts",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network mainnet",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network rinkeby",
+    "lint": "eslint .",
+    "test": "hardhat test"
+  },
   "dependencies": {
     "ethers": "^5.7.2",
     "@nomiclabs/hardhat-ethers": "^2.2.3",

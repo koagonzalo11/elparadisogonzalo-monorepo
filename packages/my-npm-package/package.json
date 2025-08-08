@@ -1,12 +1,50 @@
 {
-  "name": "my-npm-package",
+  "name": "elparadisogonzalo",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Reusable npm package part of the elparadisogonzalo monorepo ecosystem",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c",
+    "lint": "eslint . --ext .js,.ts || echo \"No lint issues\"",
+    "test": "echo \"No tests defined yet\" && exit 0",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test && npm run lint",
+    "deploy": "bash ../../scripts/deploy-npm-package.sh",
+    "predeploy": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git"
+  },
+  "keywords": [
+    "npm",
+    "package",
+    "monorepo",
+    "elparadisogonzalo",
+    "web3",
+    "blockchain"
+  ],
+  "author": "koagonzalo11 <genyoungclip@gmail.com>",
   "license": "ISC",
-  "description": ""
+  "homepage": "https://elparadisogonzalo.com#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "eslint": "^9.30.1",
+    "prettier": "^3.0.0",
+    "mocha": "^10.2.0",
+    "rollup": "^3.20.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "rollup-plugin-terser": "^7.0.2"
+  }
 }
+

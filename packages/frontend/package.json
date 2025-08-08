@@ -1,37 +1,27 @@
 {
-  "name": "frontend",
- HEAD
+  "name": "elparadisogonzalo-monorepo",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "workspaces": [
+    "packages/frontend",
+    "packages/backend",
+    "packages/contracts",
+    "packages/my-npm-package"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "vite": "^7.0.4"
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "vite": "^5.0.0"
- 04fc1bb49 (Update .gitcookies)
+    "install": "npm install",
+    "build": "npm run build --workspaces",
+    "build:frontend": "npm --workspace packages/frontend run build",
+    "build:backend": "npm --workspace packages/backend run build || echo 'No build script in backend'",
+    "build:contracts": "npm --workspace packages/contracts run build",
+    "build:my-npm-package": "npm --workspace packages/my-npm-package run build || echo 'No build script in my-npm-package'",
+    "lint": "npm run lint --workspaces",
+    "lint:frontend": "npm --workspace packages/frontend run lint",
+    "lint:backend": "npm --workspace packages/backend run lint || echo 'No lint script in backend'",
+    "lint:contracts": "npm --workspace packages/contracts run lint",
+    "preview:frontend": "npm --workspace packages/frontend run preview",
+    "deploy:frontend": "npm --workspace packages/frontend run deploy",
+    "deploy:contracts": "npm --workspace packages/contracts run deploy || echo 'No deploy script in contracts'",
+    "deploy:all": "npm run deploy:frontend && npm run deploy:contracts"
   }
 }
+

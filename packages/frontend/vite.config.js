@@ -1,21 +1,20 @@
- HEAD
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
-=======
-import wasm from 'vite-plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
-
-export default {
-  plugins: [wasm(), topLevelAwait()],
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020'
+  build: {
+    chunkSizeWarningLimit: 5120, // 5120 KB = 5 MB
+    rollupOptions: {
+      // You can customize manualChunks here if needed
+      // output: {
+      //   manualChunks(id) {
+      //     if (id.includes('node_modules')) {
+      //       return 'vendor'
+      //     }
+      //   }
+      // }
     }
   }
-};
-04fc1bb49 (Update .gitcookies)
+})
+
