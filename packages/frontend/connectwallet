@@ -1,0 +1,11 @@
+// Inside metamask.js
+async function connectWallet() {
+  try {
+    const accounts = await MMSDK.connect();
+    console.log("Connected accounts:", accounts);
+    return accounts;  // Return accounts so UI can use them
+  } catch (error) {
+    console.error("Connection failed", error);
+    throw error; // re-throw to catch in UI
+  }
+}

@@ -1,13 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>MetaMask SDK Test</title>
+</head>
+<body>
+  <h1>MetaMask SDK Connect Test</h1>
+  <button id="connectBtn">Connect Wallet</button>
+  <div id="status"></div>
+  <script type="module" src="./metamask.js"></script>
+  <script type="module">
+    import { connectWallet } from './metamask.js';
+
+    const connectBtn = document.getElementById('connectBtn');
+    const statusDiv = document.getElementById('status');
+
+    connectBtn.onclick = async () => {
+      statusDiv.textContent = 'Connecting...';
+      try {
+        const accounts = await connectWallet();
+        statusDiv.textContent = 'Connected account: ' + accounts[0];
+      } catch (err) {
+        statusDiv.textContent = 'Connection failed: ' + err.message;
+      }
+    };
+  </script>
+</body>
 </html>
+
