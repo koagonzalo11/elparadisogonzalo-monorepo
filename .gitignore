@@ -15,6 +15,7 @@ downloads/
 .env
 .env.test
 bin/
+kubo/ipfs.exe
 workingcopy
 npm
 node.js
