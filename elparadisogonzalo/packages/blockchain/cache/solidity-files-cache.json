@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/home/koagonzalo11/github/elparadisogonzalo-monorepo/elparadisogonzalo/packages/blockchain/contracts/Lock.sol": {
+      "lastModificationDate": 1754643758945,
+      "contentHash": "659cc3bbd17bd13cb7970a2a7343b3fb",
+      "sourceName": "contracts/Lock.sol",
+      "solcConfig": {
+        "version": "0.8.24",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.24"
+      ],
+      "artifacts": [
+        "Lock"
+      ]
+    }
+  }
+}
