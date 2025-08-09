@@ -2,7 +2,7 @@
 
 dotenv.config();
 
-const app = express(); const PORT = process.env.PORT || 3000; const CLIENT_ID = "Ov23li62rIC3QRB7b8ZO"; const CLIENT_SECRET = "749387d2545f22bde5473e69ed18babfe5a143ad"; const REDIRECT_URI = process.env.REDIRECT_URI || "http://localhost:3000/callback";
+const app = express(); const PORT = process.env.PORT || 3000; const CLIENT_ID = "Ov23lihtHj0rjKamTPtu"; const CLIENT_SECRET = "e835881dafc3f3d9b6fa71c654d5ad06c6ec8293"; const REDIRECT_URI = process.env.REDIRECT_URI || "http://localhost:3000/callback";
 
 app.get("/", (req, res) => { res.send(<a href="https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user user:email">Login with GitHub</a>); });
 
