@@ -1,3 +1,9 @@
 [submodule "cli"]
 	path = cli
 	url = https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+[submodule "Mach-1"]
+	path = Mach-1
+	url = git@github.com:Elparadisogonzalo/Mach-1.git
+[submodule "elparadisogonzalo-TX7CLLgTY71UaNSs3LPvVw5NQTeHobBfvZ"]
+	path = elparadisogonzalo-TX7CLLgTY71UaNSs3LPvVw5NQTeHobBfvZ
+	url = git@github.com:Elparadisogonzalo/elparadisogonzalo-TX7CLLgTY71UaNSs3LPvVw5NQTeHobBfvZ.git
