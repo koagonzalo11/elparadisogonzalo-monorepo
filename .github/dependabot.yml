@@ -1,55 +1,49 @@
-HEAD
-
- 04fc1bb49 (Update .gitcookies)
-version: 2
+# version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"                        # root-level package.json
+  # Vite & frontend (npm)
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "daily"                   # can be "weekly", "monthly"
-    open-pull-requests-limit: 10
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "npm"
+      interval: hourly
+    allow:
+      - dependency-type: all
     ignore:
-      - dependency-name: "firebase"
-        versions: ["<10.0.0"]             # optional pinning
-
-  - package-ecosystem: "mix"
-    directory: "/"                        # adjust if your Elixir app lives elsewhere
-    schedule:
-HEAD
-      interval: "weekly"
-
-      interval: "daily"
-04fc1bb49 (Update .gitcookies)
-    open-pull-requests-limit: 5
-    commit-message:
-      prefix: "chore"
+      - dependency-name: "vite"
+        versions: ["<4.0.0"] # ensure latest Vite only
     labels:
-      - "dependencies"
-      - "elixir"
- HEAD
-=======
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+      - dependencies
+      - frontend
 
-version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  # Python backend
+  - package-ecosystem: pip
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: hourly
+    allow:
+      - dependency-type: all
+    labels:
+      - dependencies
+      - backend
 
-  - package-ecosystem: "gomod"
-    directory: "/"
+  # Shell script dependencies (Dockerfiles as example)
+  - package-ecosystem: docker
+    directory: /
     schedule:
-      interval: "weekly"
- 80ebd892e (# 1. Add all changes (new files, edits, deletions) git add -A  # 2. Commit with a message git commit -m "Your commit message here"  # 3. Push to the main branch on GitHub git push origin main)
-=======
->>>>>>> 04fc1bb49 (Update .gitcookies)
+      interval: hourly
+    allow:
+      - dependency-type: all
+    labels:
+      - dependencies
+      - devops
+
+  # GitHub Actions workflows
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: hourly
+    allow:
+      - dependency-type: all
+    labels:
+      - dependencies
+      - ci
+ 
