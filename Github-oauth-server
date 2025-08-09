@@ -1,31 +1,65 @@
-// File: index.js import express from "express"; import fetch from "node-fetch"; import dotenv from "dotenv";
+import express from "express";
+import fetch from "node-fetch";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const app = express(); const PORT = process.env.PORT || 3000; const CLIENT_ID = "Ov23lihtHj0rjKamTPtu"; const CLIENT_SECRET = "e835881dafc3f3d9b6fa71c654d5ad06c6ec8293"; const REDIRECT_URI = process.env.REDIRECT_URI || "http://localhost:3000/callback";
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => { res.send(<a href="https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user user:email">Login with GitHub</a>); });
+const CLIENT_ID = "ud-api-5A897D96E57CF20C";
+const CLIENT_SECRET = "e835881dafc3f3d9b6fa71c654d5ad06c6ec8293";
+const REDIRECT_URI = "https://elparadisogonzalo.github.io/callback";
 
-app.get("/callback", async (req, res) => { const code = req.query.code; if (!code) return res.status(400).send("No code provided");
+app.get("/", (req, res) => {
+  const authorizeUrl = `https://auth.unstoppabledomains.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=openid+email`;
+  res.send(`<a href="${authorizeUrl}">Login with Unstoppable Domains</a>`);
+});
 
-try { const tokenRes = await fetch("https://github.com/login/oauth/access_token", { method: "POST", headers: { "Accept": "application/json", "Content-Type": "application/json" }, body: JSON.stringify({ client_id: CLIENT_ID, client_secret: CLIENT_SECRET, code: code, redirect_uri: REDIRECT_URI }) });
+app.get("/callback", async (req, res) => {
+  const code = req.query.code;
+  if (!code) return res.status(400).send("No code provided");
 
-const tokenData = await tokenRes.json();
-if (tokenData.error) return res.status(400).send(tokenData);
+  try {
+    // Exchange code for access token
+    const tokenRes = await fetch("https://auth.unstoppabledomains.com/oauth/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json"
+      },
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: REDIRECT_URI,
+      }),
+    });
 
-const accessToken = tokenData.access_token;
+    const tokenData = await tokenRes.json();
+    if (tokenData.error) return res.status(400).json(tokenData);
 
-const userRes = await fetch("https://api.github.com/user", {
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-    Accept: "application/vnd.github+json"
+    const accessToken = tokenData.access_token;
+
+    // Use access token to get user info
+    const userRes = await fetch("https://auth.unstoppabledomains.com/userinfo", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+      },
+    });
+
+    const userData = await userRes.json();
+
+    res.json({ user: userData, access_token: accessToken });
+  } catch (err) {
+    console.error("OAuth Error:", err);
+    res.status(500).send("OAuth Failed");
   }
 });
-const userData = await userRes.json();
 
-res.json({ user: userData, access_token: accessToken });
-
-} catch (err) { console.error("OAuth Error:", err); res.status(500).send("OAuth Failed"); } });
-
-app.listen(PORT, () => { console.log(OAuth server running at http://localhost:${PORT}); });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
