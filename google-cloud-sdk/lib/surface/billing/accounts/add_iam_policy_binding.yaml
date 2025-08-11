@@ -9,7 +9,7 @@ help_text:
     To add someone@example.com as a Billing Account Administrator for billing account
     123456-789876-543210, run:
 
-      $ {command} 123456-789876-543210 --member='user:someone@example.com' --role='roles/billing.admin'
+      $ {command} 123456-789876-543210 --member='genyoungclip@gmail.com' --role='roles/billing.admin'
 
 request:
   collection: cloudbilling.billingAccounts
