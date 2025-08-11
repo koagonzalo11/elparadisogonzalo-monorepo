@@ -1,56 +1,45 @@
-name: 🚀 Deploy to IPFS & Update UD Domain
+name: Deploy dApp to IPFS and Update UD
 
 on:
   push:
     branches:
-      - main  # or set to your deployment branch
+      - main
 
 jobs:
-  deploy:
-    name: Upload to IPFS & Update Domain
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 🛎️ Checkout repo
-      uses: actions/checkout@v4
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-    - name: 🧰 Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18
 
-    - name: 📦 Install dependencies
-      run: npm ci
+    - name: Install dependencies
+      run: npm install
 
-    - name: 🏗️ Build dApp
+    - name: Build frontend
       run: npm run build
 
-    - name: 🗂️ Zip build folder
-      run: zip -r build.zip build
-
-    - name: 📤 Upload build to Pinata (entire folder)
-      id: pinata
+    - name: Deploy to IPFS using Pinata
+      env:
+        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+        PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
       run: |
-        CID=$(curl -s -X POST https://api.pinata.cloud/pinning/pinFileToIPFS \
-          -H "pinata_api_key: ${{ secrets.PINATA_API_KEY }}" \
-          -H "pinata_secret_api_key: ${{ secrets.PINATA_SECRET_API_KEY }}" \
-          -F "file=@build.zip" | jq -r '.IpfsHash')
+        npm install -g @pinata/sdk
+        node ./scripts/pinata-upload.js # Your custom script to upload build folder and output CID
 
-        echo "cid=$CID" >> $GITHUB_OUTPUT
-        echo "✅ Pinned to IPFS with CID: $CID"
-
-    - name: 🌐 Update Unstoppable Domain with new CID
+    - name: Update Unstoppable Domain DNSLink
+      env:
+        UD_API_KEY: ${{ secrets.UD_API_KEY }}
       run: |
-        curl -s -X PATCH "https://api.unstoppabledomains.com/v1/domains/${{ secrets.UD_DOMAIN }}/records" \
-          -H "Authorization: Bearer ${{ secrets.UD_API_KEY }}" \
+        # Example using curl to update DNSLink record with the new CID
+        curl -X POST https://unstoppabledomains.com/api/v1/domains/elparadisogonzalo.com/dns-records \
+          -H "Authorization: Bearer $UD_API_KEY" \
           -H "Content-Type: application/json" \
-          -d '{
-            "records": {
-              "ipfs.html.value": "'${{ steps.pinata.outputs.cid }}'"
-            }
-          }' > update_log.json
+          -d '{"type":"TXT","name":"_dnslink","value":"dnslink=/ipfs/<NEW_CID>"}'
 
-        echo "🔄 Domain updated: elparadisogonzalo.com -> IPFS CID ${{ steps.pinata.outputs.cid }}"
 
-    - name: ✅ Done
-      run: echo "🎉 Deployment complete!"
