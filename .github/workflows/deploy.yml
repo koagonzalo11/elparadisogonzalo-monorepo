@@ -1,4 +1,4 @@
-name: Deploy dApp to IPFS and Update UD
+name: Build and Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,22 +24,21 @@ jobs:
     - name: Build frontend
       run: npm run build
 
-    - name: Deploy to IPFS using Pinata
+    - name: Upload to IPFS via Pinata
       env:
         PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
         PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
       run: |
         npm install -g @pinata/sdk
-        node ./scripts/pinata-upload.js # Your custom script to upload build folder and output CID
+        node ./scripts/pinata-upload.js
 
     - name: Update Unstoppable Domain DNSLink
       env:
         UD_API_KEY: ${{ secrets.UD_API_KEY }}
       run: |
-        # Example using curl to update DNSLink record with the new CID
+        # Replace <NEW_CID> dynamically from pinata-upload.js output if possible
         curl -X POST https://unstoppabledomains.com/api/v1/domains/elparadisogonzalo.com/dns-records \
           -H "Authorization: Bearer $UD_API_KEY" \
           -H "Content-Type: application/json" \
           -d '{"type":"TXT","name":"_dnslink","value":"dnslink=/ipfs/<NEW_CID>"}'
-
 
