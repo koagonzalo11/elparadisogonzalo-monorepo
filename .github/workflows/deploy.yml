@@ -36,9 +36,9 @@ jobs:
       env:
         UD_API_KEY: ${{ secrets.UD_API_KEY }}
       run: |
-        # Replace <NEW_CID> dynamically from pinata-upload.js output if possible
+        NEW_CID=$(cat cid.txt)
         curl -X POST https://unstoppabledomains.com/api/v1/domains/elparadisogonzalo.com/dns-records \
           -H "Authorization: Bearer $UD_API_KEY" \
           -H "Content-Type: application/json" \
-          -d '{"type":"TXT","name":"_dnslink","value":"dnslink=/ipfs/<NEW_CID>"}'
+          -d "{\"type\":\"TXT\",\"name\":\"_dnslink\",\"value\":\"dnslink=/ipfs/$NEW_CID\"}"
 
