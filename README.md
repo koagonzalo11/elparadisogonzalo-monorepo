@@ -1,4 +1,3 @@
- HEAD
 # Elparadisogonzalo Monorepo
 
 ![GPG Verified](https://img.shields.io/badge/commits-GPG%20verified-26a641?logo=gnupg&logoColor=white)
