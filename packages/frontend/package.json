@@ -1,27 +1,22 @@
 {
-  "name": "elparadisogonzalo-monorepo",
+  "name": "frontend",
   "private": true,
-  "workspaces": [
-    "packages/frontend",
-    "packages/backend",
-    "packages/contracts",
-    "packages/my-npm-package"
-  ],
+  "version": "0.0.0",
   "scripts": {
-    "install": "npm install",
-    "build": "npm run build --workspaces",
-    "build:frontend": "npm --workspace packages/frontend run build",
-    "build:backend": "npm --workspace packages/backend run build || echo 'No build script in backend'",
-    "build:contracts": "npm --workspace packages/contracts run build",
-    "build:my-npm-package": "npm --workspace packages/my-npm-package run build || echo 'No build script in my-npm-package'",
-    "lint": "npm run lint --workspaces",
-    "lint:frontend": "npm --workspace packages/frontend run lint",
-    "lint:backend": "npm --workspace packages/backend run lint || echo 'No lint script in backend'",
-    "lint:contracts": "npm --workspace packages/contracts run lint",
-    "preview:frontend": "npm --workspace packages/frontend run preview",
-    "deploy:frontend": "npm --workspace packages/frontend run deploy",
-    "deploy:contracts": "npm --workspace packages/contracts run deploy || echo 'No deploy script in contracts'",
-    "deploy:all": "npm run deploy:frontend && npm run deploy:contracts"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@metamask/sdk": "^0.33.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "vite": "^7.0.4"
   }
 }
-
