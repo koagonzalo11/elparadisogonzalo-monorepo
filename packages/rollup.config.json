@@ -1,0 +1,17 @@
+// packages/my-npm-package/rollup.config.js
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import { terser } from 'rollup-plugin-terser';
+
+export default {
+  input: 'src/index.js',          // Adjust if your entry file is different
+  output: {
+    file: 'dist/bundle.js',
+    format: 'cjs',                // CommonJS output
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
+    terser()
+  ],
+};

@@ -1,0 +1,316 @@
+# Writing the scanner files to /mnt/data so you can download and run them in Termux.
+# This Python cell creates three files:
+# - /mnt/data/multi_chain_scanner.js  (Node.js scanner)
+# - /mnt/data/scanner-config.json    (example config with RPCs and token lists; edit as needed)
+# - /mnt/data/README_scanner.txt     (instructions to run in Termux)
+#
+# NOTE: This environment has no internet access; the scanner is NOT executed here.
+# You should run the scanner locally in Termux/Node where you have network access.
+
+multi_chain_js = r"""
+/**
+ * multi_chain_scanner.js
+ *
+ * Quick multi-chain wallet scanner (native balances + ERC-20 token balances on EVM chains)
+ *
+ * Usage:
+ *   NODE_ENV=production node multi_chain_scanner.js 0xYourWalletAddressHere
+ *
+ * Install:
+ *   npm init -y
+ *   npm install ethers@5 axios
+ *
+ * Notes:
+ * - This tool queries JSON-RPC endpoints listed in scanner-config.json.
+ * - It reports native balances and ERC-20 balances for tokens listed per chain in the config.
+ * - Do NOT put private keys into this script. Only provide public wallet addresses.
+ * - For non-EVM chains (Solana, Tron), see README notes — partial support only.
+ */
+
+const fs = require('fs');
+const path = require('path');
+const { ethers } = require('ethers');
+
+const CONFIG_PATH = path.join(__dirname, 'scanner-config.json');
+
+function humanize(amountBN, decimals = 18) {
+  try {
+    return ethers.utils.formatUnits(amountBN, decimals);
+  } catch (e) {
+    return amountBN.toString();
+  }
+}
+
+async function scanEVMChain(chainCfg, address) {
+  const results = {
+    chain: chainCfg.name,
+    nativeSymbol: chainCfg.nativeSymbol || 'NATIVE',
+    nativeBalance: null,
+    tokens: []
+  };
+
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(chainCfg.rpc);
+    const balance = await provider.getBalance(address);
+    results.nativeBalance = humanize(balance, chainCfg.nativeDecimals || 18);
+
+    if (Array.isArray(chainCfg.tokens) && chainCfg.tokens.length > 0) {
+      const ERC20_ABI = [
+        'function name() view returns (string)',
+        'function symbol() view returns (string)',
+        'function decimals() view returns (uint8)',
+        'function balanceOf(address) view returns (uint256)'
+      ];
+
+      for (const tk of chainCfg.tokens) {
+        try {
+          const tokenContract = new ethers.Contract(tk.address, ERC20_ABI, provider);
+          const [symbol, decimals, rawBal] = await Promise.all([
+            tokenContract.symbol().catch(() => tk.symbol || 'TOK'),
+            tokenContract.decimals().catch(() => tk.decimals || 18),
+            tokenContract.balanceOf(address).catch(() => ethers.BigNumber.from('0'))
+          ]);
+          results.tokens.push({
+            address: tk.address,
+            symbol,
+            balance: humanize(rawBal, decimals),
+            decimals
+          });
+        } catch (e) {
+          results.tokens.push({
+            address: tk.address,
+            symbol: tk.symbol || 'TOK',
+            error: 'token-check-failed'
+          });
+        }
+      }
+    }
+
+  } catch (err) {
+    results.error = `rpc-failed: ${err.message}`;
+  }
+
+  return results;
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  if (args.length < 1) {
+    console.error('Usage: node multi_chain_scanner.js <WALLET_ADDRESS>');
+    process.exit(2);
+  }
+  const address = args[0].trim();
+  if (!ethers.utils.isAddress(address)) {
+    console.error('Invalid address:', address);
+    process.exit(2);
+  }
+
+  if (!fs.existsSync(CONFIG_PATH)) {
+    console.error('Missing scanner-config.json in the same folder.');
+    process.exit(3);
+  }
+
+  const cfgRaw = fs.readFileSync(CONFIG_PATH, 'utf8');
+  const cfg = JSON.parse(cfgRaw);
+  const chains = cfg.chains || [];
+
+  console.log('--- Multi-chain scan for', address, '---');
+  console.log('Timestamp:', new Date().toISOString());
+  console.log('Found chains to scan:', chains.map(c => c.name).join(', '));
+  console.log('');
+
+  for (const chain of chains) {
+    if (!chain.rpc) {
+      console.log(`[${chain.name}] skipping — no RPC configured.`);
+      continue;
+    }
+
+    // Only EVM chains handled directly here
+    if (chain.type && chain.type !== 'evm') {
+      console.log(`[${chain.name}] (type=${chain.type}) — support limited. See README for manual checks.`);
+      continue;
+    }
+
+    process.stdout.write(`[${chain.name}] querying RPC... `);
+    const res = await scanEVMChain(chain, address);
+    if (res.error) {
+      console.log(`ERROR — ${res.error}`);
+      continue;
+    }
+    console.log('done.');
+    console.log(`  Native balance: ${res.nativeBalance} ${res.nativeSymbol}`);
+    if (res.tokens && res.tokens.length > 0) {
+      console.log('  Tokens:');
+      for (const t of res.tokens) {
+        if (t.error) {
+          console.log(`    - ${t.address}  => error`);
+        } else {
+          console.log(`    - ${t.symbol} (${t.address})  => ${t.balance}`);
+        }
+      }
+    }
+    console.log('');
+  }
+
+  console.log('--- Scan complete ---');
+}
+
+main().catch(err => {
+  console.error('Fatal error:', err);
+  process.exit(99);
+});
+"""
+
+scanner_config = r"""
+{
+  "chains": [
+    {
+      "name": "Ethereum Mainnet",
+      "type": "evm",
+      "rpc": "https://rpc.ankr.com/eth",
+      "chainId": 1,
+      "nativeSymbol": "ETH",
+      "nativeDecimals": 18,
+      "tokens": [
+        { "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", "symbol": "USDC", "decimals": 6 },
+        { "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7", "symbol": "USDT", "decimals": 6 }
+      ]
+    },
+    {
+      "name": "Binance Smart Chain",
+      "type": "evm",
+      "rpc": "https://bsc-dataseed.binance.org/",
+      "chainId": 56,
+      "nativeSymbol": "BNB",
+      "nativeDecimals": 18,
+      "tokens": [
+        { "address": "0x55d398326f99059fF775485246999027B3197955", "symbol": "USDT", "decimals": 18 },
+        { "address": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d", "symbol": "USDC", "decimals": 18 }
+      ]
+    },
+    {
+      "name": "Polygon (Matic)",
+      "type": "evm",
+      "rpc": "https://rpc.ankr.com/polygon",
+      "chainId": 137,
+      "nativeSymbol": "MATIC",
+      "nativeDecimals": 18,
+      "tokens": [
+        { "address": "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174", "symbol": "USDC", "decimals": 6 },
+        { "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6", "symbol": "WBTC", "decimals": 8 }
+      ]
+    },
+    {
+      "name": "Avalanche C-Chain",
+      "type": "evm",
+      "rpc": "https://api.avax.network/ext/bc/C/rpc",
+      "chainId": 43114,
+      "nativeSymbol": "AVAX",
+      "nativeDecimals": 18,
+      "tokens": []
+    },
+    {
+      "name": "Fantom Opera",
+      "type": "evm",
+      "rpc": "https://rpc.ftm.tools/",
+      "chainId": 250,
+      "nativeSymbol": "FTM",
+      "nativeDecimals": 18,
+      "tokens": []
+    },
+    {
+      "name": "Arbitrum One",
+      "type": "evm",
+      "rpc": "https://arb1.arbitrum.io/rpc",
+      "chainId": 42161,
+      "nativeSymbol": "ETH",
+      "nativeDecimals": 18,
+      "tokens": []
+    },
+    {
+      "name": "Optimism",
+      "type": "evm",
+      "rpc": "https://mainnet.optimism.io",
+      "chainId": 10,
+      "nativeSymbol": "ETH",
+      "nativeDecimals": 18,
+      "tokens": []
+    },
+    {
+      "name": "Evmos (EVM)",
+      "type": "evm",
+      "rpc": "https://rpc.evmos.org:26657",
+      "chainId": 9001,
+      "nativeSymbol": "EVMOS",
+      "nativeDecimals": 18,
+      "tokens": []
+    },
+    {
+      "name": "TRON (manual)",
+      "type": "tron",
+      "rpc": "",
+      "note": "TRON requires a TRON client or TronGrid API. See README for manual steps."
+    },
+    {
+      "name": "Solana (manual)",
+      "type": "solana",
+      "rpc": "",
+      "note": "Solana scanning is not handled by this EVM scanner. Use solana-cli or Solscan."
+    }
+  ]
+}
+"""
+
+readme = r"""
+multi-chain scanner - README
+===========================
+
+What this does:
+- Scans native balances on multiple EVM-compatible chains using the JSON-RPC endpoints in scanner-config.json.
+- Checks ERC-20 balances for tokens listed under each chain in scanner-config.json.
+- Outputs a console report listing native and token balances for the target public wallet address.
+
+Important safety notes:
+- NEVER provide private keys to this tool. Only pass public wallet addresses.
+- Running this requires network access to the RPC endpoints listed. If an RPC is rate-limited or requires API keys (Infura/Alchemy), replace the rpc field in scanner-config.json with a working endpoint you control.
+- Some public RPCs (like ankr) are offered free but subject to limits. For heavy scanning, use paid endpoints.
+
+How to run (Termux / Linux):
+1) Install Node.js (Termux: `pkg install nodejs -y`) and npm.
+2) Copy the two files (multi_chain_scanner.js and scanner-config.json) into a folder, for example ~/scanner
+3) From that folder run:
+   npm init -y
+   npm install ethers@5 axios
+4) Run the scanner:
+   node multi_chain_scanner.js 0xYourAddressHere
+
+Customizing:
+- Edit scanner-config.json to add/remove chains, change RPC endpoints, and include token contract addresses you care about.
+- For token checks add token contract addresses into the tokens array for that chain.
+- If you want to check more tokens across many chains, add them. Beware of RPC rate limits.
+
+Non-EVM chains (TRON, Solana):
+- TRON: use TronGrid or TronWeb. Example flow: use TronGrid API to get TRX balance and TRC20 balances.
+- Solana: use `solana balance` or Solscan API to fetch balances. This script intentionally leaves non-EVM chains as 'manual' to avoid adding more dependencies and because their APIs differ significantly.
+
+Next steps I can do for you (pick one):
+- Add TRON & Solana automated support (requires adding tronweb and @solana/web3.js and expanding the script).
+- Add parallel/concurrent RPC queries and rate-limit handling.
+- Add automatic bridging suggestions and a simple sweep script (safe-only: will not move funds without your explicit private-key input).
+- Create a single bash wrapper to run this from Termux and auto-save JSON output.
+
+Would you like me to add TRON & Solana support now?
+
+"""
+
+# write files
+open('/mnt/data/multi_chain_scanner.js', 'w').write(multi_chain_js.strip())
+open('/mnt/data/scanner-config.json', 'w').write(scanner_config.strip())
+open('/mnt/data/README_scanner.txt', 'w').write(readme.strip())
+
+# return paths
+{ "files": [
+    "/mnt/data/multi_chain_scanner.js",
+    "/mnt/data/scanner-config.json",
+    "/mnt/data/README_scanner.txt"
+] }

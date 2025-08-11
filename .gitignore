@@ -31,3 +31,4 @@ build/
 google-cloud-sdk/
 *.jar
 *.war
+vscode-copilot-release/

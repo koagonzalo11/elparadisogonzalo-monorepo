@@ -1,0 +1,36 @@
+{
+  "name": "elparadisogonzalo-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/frontend",
+    "packages/backend",
+    "packages/contracts",
+    "packages/my-npm-package"
+  ],
+  "scripts": {
+    "install": "npm install",
+    "bootstrap": "npm install",
+    "build": "npm run build --workspaces",
+    "build:frontend": "npm --workspace packages/frontend run build",
+    "build:backend": "npm --workspace packages/backend run build || echo 'No build script in backend'",
+    "build:contracts": "npm --workspace packages/contracts run build || echo 'No build script in contracts'",
+    "build:my-npm-package": "npm --workspace packages/my-npm-package run build || echo 'No build script in my-npm-package'",
+    "lint": "npm run lint --workspaces",
+    "lint:frontend": "npm --workspace packages/frontend run lint",
+    "lint:backend": "npm --workspace packages/backend run lint || echo 'No lint script in backend'",
+    "lint:contracts": "npm --workspace packages/contracts run lint || echo 'No lint script in contracts'",
+    "test": "npm run test --workspaces",
+    "start:frontend": "npm --workspace packages/frontend run dev",
+    "start:backend": "npm --workspace packages/backend run dev",
+    "preview:frontend": "npm --workspace packages/frontend run preview",
+    "deploy:frontend": "npm --workspace packages/frontend run deploy",
+    "deploy:contracts": "npm --workspace packages/contracts run deploy || echo 'No deploy script in contracts'",
+    "deploy:all": "npm run deploy:frontend && npm run deploy:contracts",
+    "clean": "rimraf node_modules packages/**/node_modules"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0"
+  }
+}
+

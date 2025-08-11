@@ -1,0 +1,13 @@
+import { ethers } from "ethers";
+
+async function getTokenImage(contractAddress, tokenId, provider) {
+  const abi = ["function tokenURI(uint256) view returns (string)"];
+  const contract = new ethers.Contract(contractAddress, abi, provider);
+
+  const tokenURI = await contract.tokenURI(tokenId);
+  // If tokenURI is IPFS, convert to gateway URL
+  const url = tokenURI.replace(/^ipfs:\/\/(.*)/, 'https://ipfs.io/ipfs/$1');
+
+  const metadata = await fetch(url).then(res => res.json());
+  return metadata.image;
+}
