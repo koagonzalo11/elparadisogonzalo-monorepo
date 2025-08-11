@@ -4,21 +4,23 @@ async function sendTokens(recipient, amount) {
     return;
   }
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-
-  const tokenAddress = "<YOUR_TOKEN_CONTRACT_ADDRESS>";
-  const tokenABI = [ 
-    "function transfer(address to, uint amount) returns (bool)",
-    "function decimals() view returns (uint8)"
-  ];
-
-  const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
-
-  const decimals = await tokenContract.decimals();
-  const amountInWei = ethers.utils.parseUnits(amount.toString(), decimals);
-
   try {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    const tokenAddress = "0x4e8c73e7f243d12b7a5571200609523a4890beff";
+    const tokenABI = [ 
+      "function transfer(address to, uint amount) returns (bool)",
+      "function decimals() view returns (uint8)"
+    ];
+
+    const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+
+    const decimals = await tokenContract.decimals();
+    const amountInWei = ethers.utils.parseUnits(amount.toString(), decimals);
+
     const tx = await tokenContract.transfer(recipient, amountInWei);
     console.log("Transaction sent:", tx.hash);
 
@@ -31,3 +33,4 @@ async function sendTokens(recipient, amount) {
     alert("Failed to send tokens: " + error.message);
   }
 }
+

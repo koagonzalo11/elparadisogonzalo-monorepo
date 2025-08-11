@@ -1,0 +1,43 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build frontend
+      run: npm run build
+
+    - name: Upload to IPFS via Pinata
+      env:
+        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+        PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+      run: |
+        npm install -g @pinata/sdk
+        node ./scripts/pinata-upload.js
+
+    - name: Update Unstoppable Domain DNSLink
+      env:
+        UD_API_KEY: ${{ secrets.UD_API_KEY }}
+      run: |
+        # Replace <NEW_CID> dynamically from pinata-upload.js output if possible
+        curl -X POST https://unstoppabledomains.com/api/v1/domains/elparadisogonzalo.com/dns-records \
+          -H "Authorization: Bearer $UD_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{"type":"TXT","name":"_dnslink","value":"dnslink=/ipfs/<NEW_CID>"}'
