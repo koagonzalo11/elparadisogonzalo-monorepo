@@ -1,11 +1,3 @@
-name: Build and Deploy
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -19,47 +11,16 @@ jobs:
       with:
         node-version: 18
 
-    - name: Install dependencies
+    - name: Cache node modules           # <-- Add this step here
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies        # <-- Then your npm install step
       run: npm install
 
-    - name: Build frontend
-      run: npm run build
-
-    - name: Upload to IPFS via Pinata
-      env:
-        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-        PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
-      run: |
-        npm install -g @pinata/sdk
-        node ./scripts/pinata-upload.js
-
-    - name: Verify DNSLink update
-      env:
-        UD_API_KEY: ${{ secrets.UD_API_KEY }}
-      run: |
-        NEW_CID=$(cat cid.txt)
-        echo "Verifying DNSLink update points to $NEW_CID"
-        DNSLINK=$(curl -s -H "Authorization: Bearer $UD_API_KEY" https://unstoppabledomains.com/api/v1/domains/elparadisogonzalo.com/dns-records | jq -r '.records[] | select(.name=="_dnslink") | .value')
-
-        echo "Current DNSLink: $DNSLINK"
-        if [[ "$DNSLINK" == *"$NEW_CID"* ]]; then
-          echo "DNSLink verification passed"
-        else
-          echo "DNSLink verification failed"
-          exit 1
-        fi
-
-    - name: Notify Slack on success
-      if: success()
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment succeeded for elparadisogonzalo.com with CID '"$(cat cid.txt)"'"}' $SLACK_WEBHOOK_URL
-
-    - name: Notify Slack on failure
-      if: failure()
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment failed for elparadisogonzalo.com"}' $SLACK_WEBHOOK_URL
+    # ... rest of your steps (build, upload, etc.)
 
