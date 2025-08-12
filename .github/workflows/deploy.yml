@@ -1,3 +1,38 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build frontend
+      run: npm run build
+
+    - name: Upload to IPFS via Pinata
+      env:
+        PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+        PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+      run: |
+        npm install -g @pinata/sdk
+        node ./scripts/pinata-upload.js
+
     - name: Verify DNSLink update
       env:
         UD_API_KEY: ${{ secrets.UD_API_KEY }}
