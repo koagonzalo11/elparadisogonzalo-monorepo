@@ -1,0 +1,47 @@
+name: Solidity CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get current branch name
+        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Check if workflow is triggered by the same repository push
+        run: |
+          if [[ $BRANCH = "main" && ${{ github.actor }} = "Elparadisogonzalo" ]]; then
+            echo "Skipping workflow run triggered by the same repository."
+            exit 0
+          fi
+
+      - name: Verify commit author
+        run: |
+          COMMIT_AUTHOR=$(git --no-pager log -1 --pretty=format:'%an')
+          COMMIT_COMMITTER=$(git --no-pager log -1 --pretty=format:'%cn')
+
+          if [[ "$COMMIT_AUTHOR" == "GitHub Actions"* || "$COMMIT_COMMITTER" == "GitHub Actions"* ]]; then
+            echo "Commit made by GitHub Actions workflow"
+          else
+            echo "Commit made by user"
+          fi
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile Solidity contracts
+        run: npx hardhat compile
