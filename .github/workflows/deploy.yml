@@ -1,4 +1,5 @@
-name: Build, Test & Deploy to IPFS
+
+name: Solidity + IPFS Deploy
 
 on:
   push:
@@ -6,44 +7,52 @@ on:
       - main
 
 jobs:
-  build-test-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      # 2️⃣ Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # 3️⃣ Install dependencies
-      - name: Install dependencies
+      - name: Install dependencies (root)
         run: npm install
 
-      # 4️⃣ Compile Solidity contracts
-      - name: Compile contracts
-        run: npx hardhat compile
+      - name: Install dependencies (contracts)
+        run: |
+          cd packages/contracts
+          npm install
 
-      # 5️⃣ Run tests
-      - name: Run tests
-        run: npx hardhat test
+      - name: Compile Solidity contracts
+        run: |
+          cd packages/contracts
+          npx hardhat compile
 
-      # 6️⃣ Build frontend
+      - name: Install dependencies (frontend)
+        run: |
+          cd packages/frontend
+          npm install
+
       - name: Build frontend
-        run: npm run build
+        run: |
+          cd packages/frontend
+          npm run build
 
-      # 7️⃣ Upload build to IPFS
-      - name: Upload to IPFS
-        run: node full-deploy-unpacked.js
+      - name: Deploy to IPFS
+        run: |
+          npm install ipfs-http-client
+          node scripts/deploy-ipfs.js
         env:
-          PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
-          PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+          INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
+          INFURA_PROJECT_SECRET: ${{ secrets.INFURA_PROJECT_SECRET }}
 
-      # 8️⃣ Output final CID
-      - name: Show deployment CID
-        run: echo "✅ Deployment finished. Check IPFS logs above."
-
+      - name: Update Unstoppable Domains DNSLink (optional)
+        if: env.UD_API_KEY != ''
+        run: node scripts/update-dnslink.js
+        env:
+          UD_API_KEY: ${{ secrets.UD_API_KEY }}
+          UD_DOMAIN: elparadisogonzalo.com
