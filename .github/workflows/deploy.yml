@@ -1,4 +1,4 @@
-name: Deploy to IPFS
+name: Build, Test & Deploy to IPFS
 
 on:
   push:
@@ -6,24 +6,44 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-test-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
 
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2️⃣ Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # 4️⃣ Compile Solidity contracts
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      # 5️⃣ Run tests
+      - name: Run tests
+        run: npx hardhat test
+
+      # 6️⃣ Build frontend
       - name: Build frontend
         run: npm run build
 
-      - name: Deploy to IPFS
+      # 7️⃣ Upload build to IPFS
+      - name: Upload to IPFS
         run: node full-deploy-unpacked.js
         env:
           PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
           PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+
+      # 8️⃣ Output final CID
+      - name: Show deployment CID
+        run: echo "✅ Deployment finished. Check IPFS logs above."
 
