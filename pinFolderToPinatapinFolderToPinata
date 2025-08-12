@@ -1,0 +1,41 @@
+async function pinFolderToPinata(folderPath) {
+  console.log("📌 Uploading build folder to Pinata...");
+  const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+  const data = new FormData();
+
+  // Add entire folder as one "root" directory
+  function addDirToForm(dir, base) {
+    const files = fs.readdirSync(dir);
+    files.forEach(file => {
+      const fullPath = path.join(dir, file);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        addDirToForm(fullPath, base);
+      } else {
+        data.append('file', fs.createReadStream(fullPath), {
+          filepath: path.join(path.basename(base), path.relative(base, fullPath))
+        });
+      }
+    });
+  }
+
+  // base path is the root folder we want pinned
+  addDirToForm(folderPath, folderPath);
+
+  try {
+    const res = await axios.post(url, data, {
+      maxBodyLength: Infinity,
+      headers: {
+        ...data.getHeaders(),
+        pinata_api_key: PINATA_API_KEY,
+        pinata_secret_api_key: PINATA_API_SECRET,
+      },
+    });
+    const cid = res.data.IpfsHash;
+    console.log("✅ Uploaded & pinned to Pinata:", cid);
+    return cid;
+  } catch (error) {
+    console.error("❌ Pinata upload error:", error.response?.data || error.message);
+    process.exit(1);
+  }
+}
