@@ -1,23 +1,8 @@
-[user]
- HEAD
-	name = Elparadisogonzalo
-	email = genyoungclip@gmail.com
+name = Elparadisogonzalo
+mail = genyoungclip@gmail.com
 
-HEAD
-	email = genyoungclip@gmail.com
-	name = koagonzalo11
+name = koagonzalo11
+email = genyoungclip@gmail.com
 
-	name = Koagonzalo11
-	email = azehagowa@gmail.com
-[push]
-	autoSetupRemote = true
-7[advice]
-	addEmbeddedRepo = false
-[http]
-	cookiefile = /data/data/com.termux/files/home/.gitcookies
-[safe]
-	directory = /storage/emulated/0/Download
-origin/ipfs-deploy
-[credential]
-	helper = store
- 04fc1bb49 (Update .gitcookies)
+name = Koagonzalo11
+email = azehagowa@gmail.com
