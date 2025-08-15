@@ -1,0 +1,23 @@
+{
+  "name": "elp",
+  "version": "1.0.0",
+  "description": "Elparadisogonzalo full-stack dApp project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "echo \"Add your build steps here\"",
+    "fast-sync": "npx copilot sync --fast",
+    "deploy": "echo \"npm deploy elparadisogonzalo\""
+  },
+  "author": "koagonzalo11",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "web3": "^1.10.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
