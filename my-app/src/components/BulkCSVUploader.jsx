@@ -1,5 +1,5 @@
 import React from 'react';
-import BulkCSVUploader from './components/BulkCSVUploader.jsx';
+import BulkCSVUploader from './components/BulkCSVUploader';
 
 function App() {
   return (
@@ -10,4 +10,3 @@ function App() {
 }
 
 export default App;
-

@@ -1,7 +1,13 @@
-export default function App() {
+import React from 'react'
+import BulkCSVUploader from './components/BulkCSVUploader'
+
+const App = () => {
   return (
-    <div className="p-4 text-center text-2xl font-bold">
-      🚀 Welcome to Elparadisogonzalo DApp
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      <BulkCSVUploader />
     </div>
-  );
+  )
 }
+
+export default App
+

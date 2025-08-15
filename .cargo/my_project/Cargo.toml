@@ -1,0 +1,28 @@
+[package]
+name = "my_project"
+version = "1.0.0"
+authors = ["Your Name genyoungclip@gmail.com"]
+edition = "2021"
+description = "A production-ready Rust project"
+license = "MIT"
+repository = "https://github.com/koagonzalo11/elparadisogonzalo-monorepo"
+readme = "README.md"
+
+# Include files for packaging if publishing
+include = ["src/**", "Cargo.toml", "README.md", "LICENSE"]
+
+[dependencies]
+# Common dependencies
+serde = { version = "1.0", features = ["derive"] } # Serialization
+reqwest = { version = "0.11", features = ["json"] } # HTTP client
+tokio = { version = "1.0", features = ["full"] } # Async runtime
+
+[profile.dev]
+opt-level = 0 # Faster compile, less optimized
+debug = true # Include debug info
+
+[profile.release]
+opt-level = 3 # Maximum optimization
+debug = false # Remove debug info
+lto = true # Link-time optimization for smaller/faster binaries
+

@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import Papa from 'papaparse';
+
+export default function BulkCSVUploader() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState('');
+
+  const handleFile = (file) => {
+    if (!file.name.endsWith('.csv')) {
+      setError('Only CSV files are supported.');
+      return;
+    }
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        setData(results.data);
+        setError('');
+      },
+      error: () => setError('Error parsing CSV file.')
+    });
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handlePaste = (e) => {
+    const text = e.clipboardData.getData('text');
+    if (!text) return;
+    // Basic check for CSV or TSV format (comma or tab separated)
+    if (!text.includes(',') && !text.includes('\t')) {
+      setError('Pasted content does not look like CSV or TSV.');
+      return;
+    }
+    Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        setData(results.data);
+        setError('');
+      },
+      error: () => setError('Error parsing pasted content.')
+    });
+  };
+
+  return (
+    <div>
+      <h3>Bulk Listing</h3>
+
+      <div
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        style={{
+          border: '2px dashed #ccc',
+          padding: '20px',
+          marginBottom: '10px',
+          cursor: 'pointer'
+        }}
+      >
+        Drag and drop your CSV file here or click to browse
+        <input
+          type="file"
+          accept=".csv"
+          style={{ display: 'none' }}
+          id="fileInput"
+          onChange={(e) => e.target.files && handleFile(e.target.files[0])}
+        />
+        <label htmlFor="fileInput" style={{ color: 'blue', cursor: 'pointer' }}>
+          Browse Files
+        </label>
+      </div>
+
+      <div>
+        <p>OR</p>
+        <textarea
+          placeholder="Paste CSV or TSV content directly"
+          rows={10}
+          cols={50}
+          onPaste={handlePaste}
+          style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}
+        />
+      </div>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {data && (
+        <div style={{ marginTop: '20px' }}>
+          <h4>Parsed Data Preview (first 5 rows)</h4>
+          <pre>{JSON.stringify(data.slice(0, 5), null, 2)}</pre>
+        </div>
+      )}
+    </div>
+  );
+}

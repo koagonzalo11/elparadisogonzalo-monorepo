@@ -1,0 +1,22 @@
+[ req ]
+default_bits       = 4096
+default_md         = sha256
+distinguished_name = req_distinguished_name
+req_extensions     = v3_req
+prompt             = no
+
+[ req_distinguished_name ]
+C  = US
+ST = California
+L  = San Francisco
+O  = elparadisogonzalo
+OU = IT Department
+CN = service.elparadisogonzalo.com
+
+[ v3_req ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = service.elparadisogonzalo.com
+DNS.2 = api.elparadisogonzalo.com
+IP.1  = 192.168.1.10

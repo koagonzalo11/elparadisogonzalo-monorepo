@@ -1,18 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
 
 app.post('/api/bulk-listing', (req, res) => {
   const data = req.body;
-  console.log('Received bulk data:', data);
+  console.log('Received bulk listing data:', data);
 
-  // Process data here (e.g., save to DB)
+  // TODO: add your data processing/storage logic here
 
-  res.json({ message: 'Bulk listing received successfully!' });
+  res.json({ message: 'Bulk listing data received successfully.' });
 });
 
 app.listen(PORT, () => {

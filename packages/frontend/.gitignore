@@ -21,4 +21,8 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
+.vscode
+.env
+.env.*
+*.log
 *.sw?
