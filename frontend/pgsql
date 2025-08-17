@@ -1,0 +1,8 @@
+frontend/
+├─ index.html
+├─ src/
+│  ├─ main.js
+│  └─ contracts/
+│     └─ MyContract.json
+├─ package.json
+└─ vite.config.js

@@ -1,15 +1,19 @@
 {
-  "name": "elparadisogonzalo",
+  "name": "frontend",
   "version": "1.0.0",
-  "description": "Web3 Token Tracker Project",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "dev": "vite",
+    "build": "vite build",
+    "ipfs-upload": "node scripts/ipfs-upload.js",
+    "update-ud": "node scripts/update-ud.js"
   },
   "dependencies": {
-    "web3": "^1.10.1",
-    "@metamask/eth-token-tracker": "^2.1.1",
-    "dotenv": "^17.2.1"
+    "@pinata/sdk": "^2.1.0",
+    "node-fetch": "^3.3.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
   }
 }
 

@@ -1,0 +1,58 @@
+name: Full dApp CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      PINATA_API_KEY: ${{ secrets.PINATA_API_KEY }}
+      PINATA_SECRET_API_KEY: ${{ secrets.PINATA_SECRET_API_KEY }}
+      UD_API_KEY: ${{ secrets.UD_API_KEY }}
+      UD_DOMAIN: "elparadisogonzalo.com"
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Compile Solidity Contracts
+        run: |
+          cd contracts
+          npx hardhat compile
+
+      - name: Run Slither Analysis
+        run: |
+          docker run --rm -v "$(pwd)":/project -w /project slither-local /project/contracts --solc /usr/local/bin/solc
+
+      - name: Run Contract Tests
+        run: |
+          npx hardhat test
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Upload Frontend to IPFS
+        run: |
+          cd frontend
+          node scripts/ipfs-upload.js
+
+      - name: Update Unstoppable Domain
+        run: |
+          node scripts/update-ud.js

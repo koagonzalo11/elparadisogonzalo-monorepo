@@ -1,42 +1,43 @@
-import { ethers } from "ethers";
+import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.8.2/dist/ethers.min.js";
 
-// Create button
-const connectButton = document.createElement("button");
-connectButton.innerText = "Connect MetaMask";
-connectButton.style.padding = "10px 20px";
-connectButton.style.fontSize = "16px";
-connectButton.style.marginTop = "20px";
-connectButton.style.backgroundColor = "#4CAF50";
-connectButton.style.color = "white";
-connectButton.style.border = "none";
-connectButton.style.borderRadius = "8px";
+// Replace with your deployed contract address
+const contractAddress = "0xYourContractAddressHere";
+// Replace with your contract ABI
+const MyContractABI = [
+  // Example ABI entries
+  "function readValue() view returns (uint256)",
+  "function writeValue(uint256 _val)"
+];
 
-// Define click action
-connectButton.onclick = async () => {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const accounts = await provider.send("eth_requestAccounts", []);
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
+let provider;
 
-      // Show address
-      const result = document.getElementById("result");
-      result.innerText = `Connected: ${address}`;
-    } catch (error) {
-      alert("Error connecting: " + error.message);
-    }
-  } else {
-    alert("MetaMask not detected.");
+document.getElementById("connectWallet").onclick = async () => {
+  if (!window.ethereum) return alert("MetaMask not detected");
+  provider = new ethers.BrowserProvider(window.ethereum);
+  await provider.send("eth_requestAccounts", []);
+  document.getElementById("output").innerText = "Wallet connected!";
+};
+
+document.getElementById("readValue").onclick = async () => {
+  if (!provider) return alert("Connect your wallet first");
+  const contract = new ethers.Contract(contractAddress, MyContractABI, provider);
+  const value = await contract.readValue();
+  document.getElementById("output").innerText = "Value: " + value;
+};
+
+document.getElementById("writeValue").onclick = async () => {
+  if (!provider) return alert("Connect your wallet first");
+  const signer = await provider.getSigner();
+  const contract = new ethers.Contract(contractAddress, MyContractABI, signer);
+
+  try {
+    const tx = await contract.writeValue(42); // Replace 42 with your value or input
+    document.getElementById("output").innerText = "Transaction sent! Waiting...";
+    await tx.wait();
+    document.getElementById("output").innerText = "Transaction confirmed!";
+  } catch (err) {
+    console.error(err);
+    alert("Transaction failed");
   }
 };
 
-// Add to DOM
-document.getElementById("app").appendChild(connectButton);
-
-// Add result display
-const resultDiv = document.createElement("div");
-resultDiv.id = "result";
-resultDiv.style.marginTop = "15px";
-resultDiv.style.fontSize = "14px";
-document.getElementById("app").appendChild(resultDiv);
