@@ -1,57 +1,77 @@
-name: dApp CI/CD
+name: CI/CD All-in-One
 
+# Trigger on push or pull request to main or feature branches
 on:
   push:
     branches:
       - main
+      - 'feature/**'
   pull_request:
+    branches:
+      - main
+      - 'feature/**'
+  workflow_dispatch:  # Allows manual triggers
 
 jobs:
-  slither-check:
+  slither:
+    name: Run Slither Analyzer
     runs-on: ubuntu-latest
-    container:
-      image: slither-local   # your Docker image
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run Slither security analysis
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
         run: |
-          docker run --rm -v "${GITHUB_WORKSPACE}":/project -w /project slither-local /project/Assets3-1e473f24/contracts --solc /usr/local/bin/solc
+          python -m pip install --upgrade pip
+          pip install slither-analyzer
 
-  frontend-build-deploy:
+      - name: Run Slither
+        run: |
+          # Make sure the contracts path matches your repo structure
+          slither ./Assets3-1e473f24/contracts --solc /usr/bin/solc
+
+  build:
+    name: Build & Compile Contracts
     runs-on: ubuntu-latest
-    needs: slither-check
+    needs: slither
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
-
-      - name: Install IPFS CLI
         run: |
-          wget https://dist.ipfs.io/go-ipfs/v0.24.0/go-ipfs_v0.24.0_linux-amd64.tar.gz
-          tar -xvzf go-ipfs_v0.24.0_linux-amd64.tar.gz
-          sudo bash go-ipfs/install.sh
+          npm install
 
-      - name: Deploy to IPFS
-        run: ipfs add -r ./dist | tail -n1 | awk '{print $2}' > cid.txt
-
-      - name: Update Unstoppable Domain DNSLink
-        env:
-          UD_API_KEY: ${{ secrets.UD_API_KEY }}
+      - name: Compile Contracts
         run: |
-          CID=$(cat cid.txt)
-          curl -X POST "https://api.unstoppabledomains.com/dns/update" \
-            -H "Authorization: Bearer $UD_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d "{\"domain\": \"elparadisogonzalo.com\", \"dnslink\": \"$CID\"}"
+          npx hardhat compile
+
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Tests
+        run: npx hardhat test --network localhost
+
