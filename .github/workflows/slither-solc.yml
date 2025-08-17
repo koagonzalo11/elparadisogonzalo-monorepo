@@ -1,0 +1,39 @@
+name: Slither + Solc CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  slither-solc:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:20.10.17
+        options: --privileged
+        ports: []
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Slither
+        run: |
+          python -m pip install --upgrade pip
+          pip install slither-analyzer
+
+      - name: Install Solidity Compiler (solc)
+        run: |
+          sudo snap install solc --classic || sudo apt install solc -y
+
+      - name: Run Slither analysis
+        run: |
+          slither ./Assets3-1e473f24/contracts
