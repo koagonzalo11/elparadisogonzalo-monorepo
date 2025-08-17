@@ -1,3 +1,66 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Upload frontend to IPFS
+        uses: ipfs-actions/upload-to-ipfs@v1
+        with:
+          path: ./dist
+        id: ipfs
+
+      - name: Update Unstoppable Domain
+        run: |
+          curl -X POST "https://unstoppabledomains.com/api/v1/domain/update" \
+          -H "Authorization: Bearer ${{ secrets.UD_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "domain": "elparadisogonzalo.com",
+            "records": {
+              "_dnslink": "/ipfs/${{ steps.ipfs.outputs.cid }}"
+            }
+          }'
+
+      - name: Run Slither analysis
+        run: docker run --rm -v "$(pwd)":/project -w /project slither-local /project/elparadisogonzalo/packages/blockchain/contracts --solc /usr/local/bin/solc
+
+      - name: Save Slither report
+        uses: actions/upload-artifact@v3
+        with:
+          name: slither-report
+          path: slither-report.json
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # runs when you push to main branch
+  pull_request:
+    branches:
+      - main
 ---
 applyTo: '**'
 ---
