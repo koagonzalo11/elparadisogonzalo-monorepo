@@ -1,3 +1,23 @@
 {
-  "git.openRepositoryInParentFolders": true
+  "git.openRepositoryInParentFolders": true,
+  "workbench.editorAssociations": {
+    "https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git": "\"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\""
+  },
+  "workbench.editor.autoLockGroups": {
+    "default": true,
+    "workbench.editors.gettingStartedInput": true,
+    "notebookOutputEditor": true,
+    "workbench.editorinputs.searchEditorInput": true,
+    "jupyter-notebook": true,
+    "repl": true,
+    "vscode.videoPreview": true,
+    "mainThreadWebview-markdown.preview": true,
+    "workbench.input.interactive": true,
+    "imagePreview.previewEditor": true,
+    "vscode.audioPreview": true,
+    "jsProfileVisualizer.cpuprofile.table": true,
+    "gitlens.rebase": true,
+    "jsProfileVisualizer.heapsnapshot.table": true,
+    "jsProfileVisualizer.heapprofile.table": true
+  }
 }
