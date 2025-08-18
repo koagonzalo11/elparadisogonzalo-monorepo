@@ -1,0 +1,79 @@
+name: CI/CD Pipeline (Self-Hosted)
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:   # Allow manual trigger
+  release:
+    types: [published] # Trigger on GitHub Release
+jobs:
+  # ---------------------
+  # Build & Test
+  # ---------------------
+  build-test:
+    name: Build and Test
+    runs-on: self-hosted
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Linter
+        run: npm run lint
+      - name: Run Build
+        run: npm run build
+      - name: Run Tests
+        run: npm test -- --ci --coverage
+  # ---------------------
+  # Package (for releases)
+  # ---------------------
+  package:
+    name: Package & Release
+    runs-on: self-hosted
+    needs: build-test
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Create Artifact
+        run: |
+          mkdir -p dist
+          cp -r build/* dist/
+      
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app
+          path: dist/
+  # ---------------------
+  # Deploy (to production)
+  # ---------------------
+  deploy:
+    name: Deploy to Production
+    runs-on: self-hosted
+    needs: build-test
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Deploy Application
+        run: |
+          echo "🚀 Starting Deployment..."
+          # Example: Docker deployment
+          docker build -t my-app:latest .
+          docker stop my-app || true
+          docker rm my-app || true
