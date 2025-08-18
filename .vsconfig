@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "components": [
+    "Microsoft.VisualStudio.Workload.NetWeb", // ASP.NET & web
+    "Microsoft.VisualStudio.Workload.Node", // Node.js
+    "Microsoft.VisualStudio.Workload.Azure", // Azure
+    "Microsoft.VisualStudio.Component.Git", // Git tools
+    "Microsoft.VisualStudio.Workload.ManagedDesktop" // .NET desktop
+  ]
+}
