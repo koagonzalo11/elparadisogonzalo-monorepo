@@ -1,0 +1,77 @@
+{
+  "user": {
+    "username": "Elparadisogonzalo",
+    "role": "Programmer & Developer",
+    "domain": "elparadisogonzalo.com",
+    "wallet": {
+      "address": "0x802ba6a112f4a7bbbc2d63c8ef4bc14dfcbe6245",
+      "networks": ["Ethereum", "BSC"],
+      "tools": ["MetaMask", "Infura", "JSON-RPC"]
+    }
+  },
+  "project": {
+    "name": "Elparadisogonzalo dApp",
+    "slogan": "Secure. Decentralized. Yours.",
+    "repository": "https://github.com/Elparadisogonzalo/asset3",
+    "currentCorrection": 1,
+    "correctionDate": "2025-08-18",
+    "goals": [
+      "Finalize frontend UI",
+      "Launch public testnet",
+      "Automate deployment (CI/CD)",
+      "Explore zk/L2 scalability"
+    ]
+  },
+  "infrastructure": {
+    "node": {
+      "software": "geth",
+      "version": "1.15.5-stable",
+      "environment": "Android Termux"
+    },
+    "backend": {
+      "stack": ["Node.js", "Web3.js", "Google CLI", "GitHub CLI"],
+      "api": "Blockchain interaction APIs"
+    },
+    "hosting": {
+      "storage": "IPFS",
+      "domainProvider": "Unstoppable Domains",
+      "dns": "Decentralized DNS"
+    }
+  },
+  "frontend": {
+    "features": [
+      "MetaMask wallet connection",
+      "Focused/unfocused opacity states",
+      "Auto casing in input fields",
+      "Secure user interactions"
+    ],
+    "theme": "dark",
+    "language": "en"
+  },
+  "database": {
+    "type": "Decentralized + Cloud Backup",
+    "data": [
+      "Smart contract ABIs",
+      "User preferences",
+      "Correction history",
+      "Transaction logs"
+    ],
+    "customDirectory": "/data/digger/custom/"
+  },
+  "security": {
+    "status": "Draft completed",
+    "measures": [
+      "Wallet safety",
+      "Gas optimization",
+      "Logging & monitoring",
+      "CI/CD integrity"
+    ]
+  },
+  "logs": [
+    {
+      "correction": 1,
+      "description": "Finalized frontend, testnet deployment, MetaMask integration",
+      "date": "2025-08-18"
+    }
+  ]
+}
