@@ -1,43 +1,53 @@
-#!/usr/bin/env node
-
-/**
- * Update Unstoppable Domain _dnslink record with new CID
- */
-
 import fetch from "node-fetch";
+import fs from "fs";
+import path from "path";
 
-const UD_API_TOKEN = process.env.UD_API_TOKEN; // your Unstoppable Domains API token
-const DOMAIN = "elparadisogonzalo.com";        // your domain
-const CID = process.argv[2];                   // pass CID as argument
+// Load IPFS CID from a local file (written by ipfs-upload.js)
+const cidFile = path.resolve("./dist/CID.txt");
+if (!fs.existsSync(cidFile)) {
+  console.error("CID file not found. Run ipfs-upload.js first.");
+  process.exit(1);
+}
+const cid = fs.readFileSync(cidFile, "utf8").trim();
 
-if (!UD_API_TOKEN || !CID) {
-  console.error("Usage: UD_API_TOKEN must be set and CID passed as argument.");
+// UD API credentials from environment
+const UD_API_KEY = process.env.UD_API_KEY;
+const UD_API_SECRET = process.env.UD_API_SECRET;
+
+if (!UD_API_KEY || !UD_API_SECRET) {
+  console.error("Please set UD_API_KEY and UD_API_SECRET in environment.");
   process.exit(1);
 }
 
-async function updateDNSLink(cid) {
-  const url = `https://api.unstoppabledomains.com/v1/domains/${DOMAIN}/records/_dnslink`;
-  const body = { type: "TXT", value: `dnslink=/ipfs/${cid}` };
+// Construct API request
+const domain = "elparadisogonzalo.com";
+const url = `https://unstoppabledomains.com/api/v1/domains/${domain}/records`;
+const data = {
+  "_dnslink": `/ipfs/${cid}`
+};
 
+async function updateUD() {
   try {
-    const response = await fetch(url, {
+    const res = await fetch(url, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${UD_API_TOKEN}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Basic ${Buffer.from(`${UD_API_KEY}:${UD_API_SECRET}`).toString("base64")}`
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(data)
     });
 
-    if (!response.ok) throw new Error(await response.text());
-    const data = await response.json();
-    console.log(`Updated ${DOMAIN} _dnslink to /ipfs/${cid}`, data);
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`UD API Error: ${res.status} ${text}`);
+    }
+
+    console.log(`UD record updated successfully: _dnslink -> ${cid}`);
   } catch (err) {
-    console.error("Unstoppable Domains update error:", err);
+    console.error(err.message);
     process.exit(1);
   }
 }
 
-// Main
-updateDNSLink(CID);
+updateUD();
 
