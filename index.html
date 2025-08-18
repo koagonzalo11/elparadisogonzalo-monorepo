@@ -1,123 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>elparadisogonzalo Token dApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elparadisogonzalo</title>
+    <meta name="description" content="Official dApp portal of Elparadisogonzalo. Explore blockchain integrations, wallet interactions, and decentralized apps.">
+    <meta name="author" content="Gonzalo">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Ethers.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body>
-  <h2>🦊 MetaMask Token dApp</h2>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
-  <button id="connect">Connect Wallet</button>
-  <p id="status"></p>
-  <p id="ethBalance"></p>
-  <p id="tokenBalance"></p>
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <img src="token.png" alt="Token Logo" class="w-8 h-8 mr-2 rounded-full shadow-sm">
+                Elparadisogonzalo
+            </h1>
+            <nav>
+                <a href="#about" class="px-3 hover:text-blue-600">About</a>
+                <a href="#projects" class="px-3 hover:text-blue-600">Projects</a>
+                <a href="#contact" class="px-3 hover:text-blue-600">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-  <h3>📤 Send Tokens</h3>
-  <input type="text" id="recipient" placeholder="Recipient address" size="50">
-  <input type="text" id="amount" placeholder="Amount to send">
-  <button id="send">Send Tokens</button>
-  <p id="transferStatus"></p>
+    <!-- Hero Section -->
+    <section class="flex-1 flex flex-col justify-center items-center text-center px-4 py-20 bg-gradient-to-r from-purple-500 to-blue-500 text-white">
+        <img src="token.png" alt="Elparadisogonzalo Token" class="w-32 h-32 mb-6 rounded-full shadow-lg">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Elparadisogonzalo</h2>
+        <p class="text-lg md:text-xl mb-6 max-w-xl">Explore my decentralized projects, smart contract integrations, and Web3 innovations.</p>
+        <button id="connectWallet" class="bg-white text-purple-600 font-bold px-6 py-3 rounded-md hover:bg-gray-200 transition">Connect Wallet</button>
+    </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-  <script>
-    const tokenAddress = "0x4e8c73e7f243d12b7a5571200609523a4890beff";
-    const tokenABI = [
-      {
-        "constant": true,
-        "inputs": [{"name": "_owner", "type": "address"}],
-        "name": "balanceOf",
-        "outputs": [{"name": "balance", "type": "uint256"}],
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "decimals",
-        "outputs": [{"name": "", "type": "uint8"}],
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "symbol",
-        "outputs": [{"name": "", "type": "string"}],
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          { "name": "_to", "type": "address" },
-          { "name": "_value", "type": "uint256" }
-        ],
-        "name": "transfer",
-        "outputs": [{ "name": "", "type": "bool" }],
-        "type": "function"
-      }
-    ];
+    <!-- About Section -->
+    <section id="about" class="container mx-auto px-4 py-16">
+        <h3 class="text-3xl font-bold mb-6">About Me</h3>
+        <p class="text-gray-700 max-w-2xl">
+            I am Gonzalo, a developer focused on Ethereum & BSC smart contracts, Web3 integrations, and decentralized applications.
+            I run projects with IPFS hosting, automated CI/CD pipelines, and domain management via Unstoppable Domains.
+        </p>
+    </section>
 
-    let web3;
-    let userAddress;
-    let tokenContract;
-    let decimals = 18;
-    let symbol = "";
+    <!-- Projects Section -->
+    <section id="projects" class="bg-gray-50 py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold mb-6 text-center">Projects</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white shadow-md p-6 rounded-md flex flex-col items-center">
+                    <img src="token.png" alt="Asset3 Token" class="w-16 h-16 mb-4">
+                    <h4 class="font-bold text-xl mb-2">Asset3 dApp</h4>
+                    <p>Ethereum & BSC multi-chain dApp with wallet integration, event tracking, and IPFS hosting.</p>
+                </div>
+                <div class="bg-white shadow-md p-6 rounded-md flex flex-col items-center">
+                    <img src="token.png" alt="Identity Token" class="w-16 h-16 mb-4">
+                    <h4 class="font-bold text-xl mb-2">Decentralized Identity</h4>
+                    <p>Custom domain and wallet integration using Unstoppable Domains for Web3 identity verification.</p>
+                </div>
+                <div class="bg-white shadow-md p-6 rounded-md flex flex-col items-center">
+                    <img src="token.png" alt="CI/CD Token" class="w-16 h-16 mb-4">
+                    <h4 class="font-bold text-xl mb-2">CI/CD Automation</h4>
+                    <p>Automated deployment of frontend and backend components to IPFS with smart contract updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    async function connect() {
-      if (typeof window.ethereum !== 'undefined') {
-        web3 = new Web3(window.ethereum);
-        try {
-          await ethereum.request({ method: "eth_requestAccounts" });
-          const accounts = await web3.eth.getAccounts();
-          userAddress = accounts[0];
-          document.getElementById("status").innerText = "✅ Connected: " + userAddress;
+    <!-- Contact Section -->
+    <section id="contact" class="container mx-auto px-4 py-16">
+        <h3 class="text-3xl font-bold mb-6">Contact</h3>
+        <p class="text-gray-700 max-w-2xl mb-4">You can reach me via email at <a href="mailto:azehaqowa@gmail.com" class="text-blue-600">azehaqowa@gmail.com</a></p>
+        <p class="text-gray-700 max-w-2xl">Or explore my projects and contributions on <a href="https://github.com/elparadisogonzalo" class="text-blue-600">GitHub</a>.</p>
+    </section>
 
-          const ethBalance = await web3.eth.getBalance(userAddress);
-          document.getElementById("ethBalance").innerText =
-            "💰 ETH: " + web3.utils.fromWei(ethBalance, "ether");
+    <!-- Footer -->
+    <footer class="bg-white shadow-inner py-6 mt-auto">
+        <div class="container mx-auto px-4 text-center text-gray-600 flex items-center justify-center">
+            <img src="token.png" alt="Token Logo" class="w-6 h-6 mr-2 rounded-full shadow-sm">
+            © 2025 Elparadisogonzalo. All rights reserved.
+        </div>
+    </footer>
 
-          tokenContract = new web3.eth.Contract(tokenABI, tokenAddress);
-          decimals = await tokenContract.methods.decimals().call();
-          symbol = await tokenContract.methods.symbol().call();
-          const rawBalance = await tokenContract.methods.balanceOf(userAddress).call();
-          const balance = rawBalance / Math.pow(10, decimals);
-          document.getElementById("tokenBalance").innerText =
-            "🎯 Token Balance: " + balance + " " + symbol;
+    <!-- Wallet Connect Script -->
+    <script>
+        const connectButton = document.getElementById('connectWallet');
 
-        } catch (err) {
-          document.getElementById("status").innerText = "❌ Error: " + err.message;
+        async function connectWallet() {
+            if (window.ethereum) {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    connectButton.innerText = `Connected: ${accounts[0].slice(0,6)}...${accounts[0].slice(-4)}`;
+                } catch (error) {
+                    console.error('User rejected connection:', error);
+                }
+            } else {
+                alert('MetaMask not detected. Please install it to connect.');
+            }
         }
-      } else {
-        document.getElementById("status").innerText = "🦊 MetaMask not found";
-      }
-    }
 
-    async function sendTokens() {
-      const recipient = document.getElementById("recipient").value;
-      const amount = document.getElementById("amount").value;
-
-      if (!recipient || !amount) {
-        document.getElementById("transferStatus").innerText = "⚠️ Fill in all fields";
-        return;
-      }
-
-      const amountInWei = web3.utils.toBN(amount * Math.pow(10, decimals));
-
-      try {
-        document.getElementById("transferStatus").innerText = "⏳ Sending...";
-        await tokenContract.methods.transfer(recipient, amountInWei.toString()).send({ from: userAddress });
-        document.getElementById("transferStatus").innerText = "✅ Tokens sent to " + recipient;
-
-        // Update balance after sending
-        const newBalance = await tokenContract.methods.balanceOf(userAddress).call();
-        document.getElementById("tokenBalance").innerText =
-          "🎯 Token Balance: " + (newBalance / Math.pow(10, decimals)) + " " + symbol;
-
-      } catch (err) {
-        document.getElementById("transferStatus").innerText = "❌ Transfer failed: " + err.message;
-      }
-    }
-
-    document.getElementById("connect").onclick = connect;
-    document.getElementById("send").onclick = sendTokens;
-  </script>
+        connectButton.addEventListener('click', connectWallet);
+    </script>
 </body>
 </html>
+
