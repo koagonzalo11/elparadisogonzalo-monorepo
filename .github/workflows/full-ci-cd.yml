@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
+   workflow_dispatch:   # this enables both manual and automatic trigger
 
 jobs:
   build-test-analyze-deploy:
