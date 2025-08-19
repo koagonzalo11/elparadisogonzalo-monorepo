@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 ls
 cd
 ls -la
 ls
 git status
-=======
 cat abi.json
 rm -rf node_modules package-lock.json artifacts cache
 npz hardhat init
@@ -162,8 +159,6 @@ node deploy.js
 nano deploy.js
 node deploy.js
 nano deploy.js
-=======
->>>>>>> c5f7e8e2c4 (🛠️ Prepare for rebase: deploy workflow added)
 node deploy.js
 npm install web3@1.10.0
 node deploy.js
@@ -508,10 +503,8 @@ pip show eth-hash pycryptodome
 pip install pycryptodome eth-hash[pycryptodome]
 python3 -m venv --system-site-packages venv
 source venv/bin/activate
-<<<<<<< HEAD
 pytho
->>>>>>> origin/master
-=======
+origin/main
 pythocd
 curl -L -o esbuild https://github.com/evanw/esbuild/releases/download/v0.19.11/esbuild-linux-arm64
 chmod +x esbuild
@@ -668,4 +661,3 @@ git push origin main
 git checkout -b ipfs-deploy-workflow
 # 2. Push the new branch
 git push origin ipfs-deploy-workflow
->>>>>>> c5f7e8e2c4 (🛠️ Prepare for rebase: deploy workflow added)
