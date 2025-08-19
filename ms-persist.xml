@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  ms-persist.xml for elparadisogonzalo.com
+  Purpose: Persist user data (wallet, domain, preferences) locally.
+  Author: azeh Agowa (Genyoungclip@gmail.com)
+-->
+<persistence xmlns="urn:schemas-microsoft-com:persist">
+  <storage type="local" scope="user">
+    <!-- Wallet/Web3 Data -->
+    <item key="walletAddress" encrypt="true">
+      <description>Stores the user's MetaMask wallet address (decrypted).</description>
+      <default></default>
+    </item>
+    <item key="connectedDomain" encrypt="false">
+      <description>Unstoppable Domain linked to this session.</description>
+      <default>elparadisogonzalo.com</default>
+    </item>
+
+    <!-- UI Preferences -->
+    <item key="darkMode" encrypt="false">
+      <description>User's theme preference.</description>
+      <default>false</default>
+    </item>
+    <item key="lastVisitedPage" encrypt="false">
+      <description>Last visited page for session restore.</description>
+      <default>/</default>
+    </item>
+
+    <!-- Cache Settings -->
+    <cachePolicy maxAge="86400" unit="seconds"> <!-- 24h cache -->
+      <exclusions>
+        <path>/api/*</path> <!-- Dynamic API calls included -->
+      </exclusions>
+    </cachePolicy>
+  </storage>
+
+  <!-- Optional: Sync with Azure/Edge if needed -->
+  <sync enabled="true" endpoint="https://api.elparadisogonzalo.com/sync" />
+</persistence>
