@@ -1,0 +1,197 @@
+# Create a comprehensive startup.xml file tailored to the user's monorepo and Web3 stack.
+content = """<?xml version="1.0" encoding="UTF-8"?>
+<startup xmlns="https://elparadisogonzalo.com/schema/startup" version="1.0">
+  <!--
+    Startup configuration for the elparadisogonzalo monorepo and dApp stack.
+    Edit values marked TODO before use. Keep secrets out of source control.
+  -->
+  <meta>
+    <project name="elparadisogonzalo-monorepo"
+             description="Decentralized Web3 dApp with Unstoppable Domains, Ethereum/BSC, IPFS hosting, MetaMask integration"/>
+    <owner preferredName="Gonzalo" username="koagonzalo11" email="genyoungclip@gmail.com"/>
+    <repository host="github" url="https://github.com/koagonzalo11/elparadisogonzalo-monorepo"/>
+    <domain main="elparadisogonzalo.com" provider="Unstoppable Domains"/>
+    <ipfs>
+      <cid current="QmTCaZ7VDp2bi8WYhcYPzH9QpC2dCckjLKQcq5UQAvRJgx"/>
+      <dnslink record="_dnslink.elparadisogonzalo.com" target="QmRMTKHtgSNw1G8CAsrohaH5DQ2nGNpKme6eqpkFNXnbaB"/>
+    </ipfs>
+  </meta>
+
+  <profiles default="dev">
+    <profile id="dev" description="Local development on Android/Termux or desktop">
+      <env NODE_ENV="development" DEBUG="*"/>
+      <paths root="./" packages="./packages" apps="./apps" scripts="./scripts"/>
+      <node version=">=20" packageManager="npm"/>
+    </profile>
+    <profile id="staging" description="Pre-production tests and demos">
+      <env NODE_ENV="staging"/>
+    </profile>
+    <profile id="prod" description="Production deployment to IPFS + UD">
+      <env NODE_ENV="production" LOG_LEVEL="info"/>
+    </profile>
+  </profiles>
+
+  <wallets>
+    <wallet name="primary" address="0x802ba6a112f4a7bbbc2d63c8ef4bc14dfcbe6245">
+      <networks default="ethereum-mainnet">
+        <network id="ethereum-mainnet" chainId="1" rpc="${RPC_ETH_MAINNET}"/>
+        <network id="ethereum-sepolia" chainId="11155111" rpc="${RPC_ETH_SEPOLIA}"/>
+        <network id="bsc-mainnet" chainId="56" rpc="${RPC_BSC_MAINNET}"/>
+        <network id="bsc-testnet" chainId="97" rpc="${RPC_BSC_TESTNET}"/>
+      </networks>
+      <signing>
+        <!-- Use a secure secret manager, not plaintext -->
+        <privateKey ref="SECRET_PRIVATE_KEY" managedBy="env|vault" />
+      </signing>
+    </wallet>
+    <wallet name="unstoppable-resolver" contract="0xa9a6A3626993D487d2Dbda3173cf58cA1a9D9e9f"/>
+  </wallets>
+
+  <contracts>
+    <contract name="primaryToken" address="0x4e8c73e7f243d12b7a5571200609523a4890beff" abiPath="./contracts/PrimaryToken.abi.json">
+      <events>
+        <event name="Approval"/>
+        <event name="Claim"/>
+        <event name="CrosschainBurn"/>
+        <event name="CrosschainMint"/>
+        <event name="OwnershipTransferred"/>
+        <event name="Transfer"/>
+      </events>
+    </contract>
+  </contracts>
+
+  <services>
+    <frontend id="dapp-ui" path="./apps/frontend" framework="vite+react" entry="index.html">
+      <integrations metamask="true" ethers="true" />
+      <env PUBLIC_CONTRACT_ADDRESS="0x4e8c73e7f243d12b7a5571200609523a4890beff"
+           PUBLIC_UD_DOMAIN="elparadisogonzalo.com"/>
+    </frontend>
+
+    <backend id="api" path="./apps/backend" language="node" entry="src/server.ts">
+      <env PORT="8080" DATABASE_URL="${DATABASE_URL}" LOG_LEVEL="debug"/>
+      <health endpoint="/healthz" interval="30s" timeout="3s"/>
+    </backend>
+
+    <worker id="events-indexer" path="./apps/indexer" language="python" entry="main.py">
+      <description>Indexes smart contract events and writes CSV/Parquet; uploads to IPFS</description>
+      <env WEB3_PROVIDER="${RPC_ETH_MAINNET}" ETHERSCAN_API_KEY="${ETHERSCAN_API_KEY}" OUTPUT_DIR="./data"/>
+      <schedules>
+        <cron expr="*/5 * * * *" task="scan-latest-blocks"/>
+      </schedules>
+    </worker>
+
+    <database id="postgres" engine="postgresql" version="15">
+      <connection host="${DB_HOST}" port="5432" user="${DB_USER}" password="${DB_PASS}" db="${DB_NAME}"/>
+      <migrations path="./apps/backend/migrations"/>
+    </database>
+
+    <storage>
+      <pinata enabled="true" apiKey="${PINATA_API_KEY}" secretKey="${PINATA_SECRET_KEY}"/>
+      <ipfsGateway primary="${IPFS_GATEWAY_PRIMARY}" fallback="${IPFS_GATEWAY_FALLBACK}"/>
+    </storage>
+
+    <cdn id="ud-website" provider="Unstoppable Domains">
+      <records>
+        <record type="dnslink" name="_dnslink" value="/ipfs/${LATEST_CID}"/>
+      </records>
+    </cdn>
+  </services>
+
+  <cicd>
+    <provider name="github-actions" repo="koagonzalo11/elparadisogonzalo-monorepo">
+      <workflows>
+        <workflow id="build-test" onPush="true" onPullRequest="true">
+          <steps>
+            <step name="Setup Node" uses="actions/setup-node@v4" node="20"/>
+            <step name="Install" run="npm ci"/>
+            <step name="Test" run="npm test --workspaces"/>
+          </steps>
+        </workflow>
+        <workflow id="deploy-ipfs" onTag="v*">
+          <steps>
+            <step name="Build Frontend" run="npm run -w apps/frontend build"/>
+            <step name="Pin to Pinata" run="node scripts/pinata-upload.js --dir dist --out cid.txt"/>
+            <step name="Update UD DNSLink" run="node scripts/update-ud-dnslink.js --cid $(cat cid.txt)"/>
+          </steps>
+        </workflow>
+        <workflow id="contract-verify" onDispatch="true">
+          <steps>
+            <step name="Verify on Etherscan" run="node scripts/verify.js --address 0x4e8c73e7f243d12b7a5571200609523a4890beff"/>
+          </steps>
+        </workflow>
+      </workflows>
+      <secrets>
+        <secret name="RPC_ETH_MAINNET" required="true"/>
+        <secret name="RPC_ETH_SEPOLIA" required="false"/>
+        <secret name="RPC_BSC_MAINNET" required="false"/>
+        <secret name="RPC_BSC_TESTNET" required="false"/>
+        <secret name="ETHERSCAN_API_KEY" required="true"/>
+        <secret name="PINATA_API_KEY" required="true"/>
+        <secret name="PINATA_SECRET_KEY" required="true"/>
+        <secret name="UD_API_TOKEN" required="true"/>
+        <secret name="DATABASE_URL" required="false"/>
+        <secret name="SECRET_PRIVATE_KEY" required="true"/>
+      </secrets>
+    </provider>
+  </cicd>
+
+  <security>
+    <linting enabled="true">
+      <tool name="eslint" config="./.eslintrc.cjs"/>
+      <tool name="solhint" config="./.solhint.json"/>
+    </linting>
+    <scanning>
+      <dependencyAudit enabled="true"/>
+      <secretsScan enabled="true"/>
+    </scanning>
+    <policies>
+      <keyManagement>
+        <rule>Private keys must be stored in GitHub Actions secrets or Vault—never in repo.</rule>
+        <rule>Use hardware wallet for production deployments when feasible.</rule>
+      </keyManagement>
+      <accessControl>
+        <rule>Require CODEOWNERS approval for changes under /contracts and /apps/indexer.</rule>
+      </accessControl>
+    </policies>
+  </security>
+
+  <logging>
+    <targets>
+      <target name="console" level="debug"/>
+      <target name="file" level="info" path="./logs/app.log" rotate="daily" retainDays="7"/>
+    </targets>
+  </logging>
+
+  <runbooks>
+    <runbook id="local-dev">
+      <step>Start Postgres or set DATABASE_URL</step>
+      <step>npm install</step>
+      <step>npm run -w apps/frontend dev</step>
+      <step>npm run -w apps/backend dev</step>
+      <step>python apps/indexer/main.py --tail</step>
+    </runbook>
+    <runbook id="prod-deploy">
+      <step>Tag release: git tag vX.Y.Z && git push --tags</step>
+      <step>CI builds frontend, pins to IPFS, updates UD DNSLink</step>
+      <step>Verify contract if changed</step>
+      <step>Smoke test site at https://elparadisogonzalo.com</step>
+    </runbook>
+  </runbooks>
+
+  <featureFlags>
+    <flag key="enableZkL2" default="false" description="Enable zk/L2 integration paths"/>
+    <flag key="enableAnalytics" default="true" description="Client-side anonymous analytics"/>
+  </featureFlags>
+
+  <healthchecks>
+    <check name="RPC Endpoint" type="http" url="${RPC_ETH_MAINNET}" method="HEAD" interval="60s"/>
+    <check name="Backend API" type="http" url="http://localhost:8080/healthz" method="GET" interval="30s"/>
+  </healthchecks>
+</startup>
+"""
+
+path = "/mnt/data/startup.xml"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(content)
+
+path
