@@ -1,0 +1,27 @@
+{
+  "name": "elparadisogonzalo-monorepo",
+  "version": "1.0.0",
+  "description": "A decentralized Web3 dApp integrating Ethereum/BSC smart contracts, Unstoppable Domains, IPFS, and MetaMask.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src -e ts --exec ts-node src/index.ts",
+    "lint": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.15.0",
+    "web3": "^4.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0",
+    "rimraf": "^5.0.5"
+  }
+}
