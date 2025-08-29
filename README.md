@@ -9,12 +9,11 @@
 
 All commits in this project are GPG-signed and verified.
 
-**GPG Key Fingerprint:** `0x1234ABCD`  
+**GPG Key Fingerprint:** `6EEC280E7EE01FB1`  
 **Key Owner:** [@koagonzalo11](https://github.com/koagonzalo11)  
 **Public Key:** [`gpg-public.asc`](./gpg-public.asc)  
 **Revocation Cert:** [`revocation-cert.asc`](./revocation-cert.asc)  
-✅ GitHub shows a **Verified** badge on commits signed by this key. HEAD
- 04fc1bb49 (Update .gitcookies)
+✅ GitHub shows a **Verified** badge on commits signed by this key
 # elparadisogonzalo-monorepo
 
 [![GitHub repo size](https://img.shields.io/github/repo-size/koagonzalo11/elparadisogonzalo-monorepo?color=blue&style=flat-square)](https://github.com/koagonzalo11/elparadisogonzalo-monorepo) 
