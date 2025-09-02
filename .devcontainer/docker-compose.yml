@@ -22,8 +22,8 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: rosty-bar-a4c2yw6q-pooler.us-east-1.aws.neon.tech
+      POSTGRES_PASSWORD: 3iFJBPmUtvO7
       POSTGRES_DB: app
 
 volumes:
