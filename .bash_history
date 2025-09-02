@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 ls
 cd
 ls -la
 ls
 git status
-=======
 cat abi.json
 rm -rf node_modules package-lock.json artifacts cache
 npz hardhat init
@@ -668,4 +665,3 @@ git push origin main
 git checkout -b ipfs-deploy-workflow
 # 2. Push the new branch
 git push origin ipfs-deploy-workflow
->>>>>>> c5f7e8e2c4 (🛠️ Prepare for rebase: deploy workflow added)
