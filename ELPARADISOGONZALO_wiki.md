@@ -21,4 +21,5 @@ The project is designed for secure asset management, multi-chain interactions, a
 7. [Testing](#testing)  
 8. [Security](#security)  
 9. [Tools & Tech Stack](#tools--tech-stack)  
-10. [Contributing
+10. [Contributing](#koagonzalo11 and koagonzalo)
+11. [Authors](#koagonzalo11 and koagonzalo)
