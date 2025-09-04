@@ -76,7 +76,21 @@ Smart contracts deployed on Ethereum and BSC mainnets
 
 Automated CI/CD with GitHub Actions
 
-
+---
+name: "elparadisogonzalo"
+description: "web3 app ."
+page_type: production 
+languages:
+  - csharp
+  - fsharp
+  - vbnet
+products:
+  - dotnet-core
+  - dotnet
+  - dotnet-standard
+  - aspnet
+  - aspnet-core
+  - ef-core
 
 ---
 
