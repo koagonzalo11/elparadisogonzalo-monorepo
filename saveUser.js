@@ -11,7 +11,7 @@ const db = admin.firestore();
 
 db.collection("users").add({
   name: "Koa Gonzalo",
-  created: new Date()
+  created: new Date(2025-09-10)
 }).then(() => {
   console.log("User saved");
   process.exit();
