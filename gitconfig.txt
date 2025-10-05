@@ -7,7 +7,7 @@
 	worktree = C:/
 	ignorecase = false
 [remote "koa"]
-	url = 
+	url = https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
 	fetch = +refs/heads/*:refs/remotes/koa/*
 [gui]
 	trustmtime = true
