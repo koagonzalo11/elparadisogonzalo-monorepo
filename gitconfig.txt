@@ -1,0 +1,18 @@
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	logallrefupdates = true
+	worktree = C:/
+	ignorecase = false
+[remote "koa"]
+	url = 
+	fetch = +refs/heads/*:refs/remotes/koa/*
+[gui]
+	trustmtime = true
+	commitmsgwidth = 99
+	newbranchtemplate = master
+[user]
+	email = genyoungclip@gmail.com
+	name = koagonzalo11
