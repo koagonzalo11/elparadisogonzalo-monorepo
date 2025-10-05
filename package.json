@@ -1,23 +1,28 @@
 {
-  "name": "elp",
+  "name": "elparadisogonzalo-monorepo",
   "version": "1.0.0",
-  "description": "Elparadisogonzalo full-stack dApp project",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "build": "echo \"Add your build steps here\"",
-    "fast-sync": "npx copilot sync --fast",
-    "deploy": "echo \"npm deploy elparadisogonzalo\""
+  "private": true,
+  "description": "Full-stack AI-powered monorepo by Azeh Agowa",
+  "author": {
+    "name": "Azeh Agowa",
+    "email": "genyoungclip@gmail.com"
   },
-  "author": "koagonzalo11",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.18.2",
-    "web3": "^1.10.0",
-    "dotenv": "^16.3.1"
+  "workspaces": [
+    "packages/backend",
+    "packages/frontend",
+    "packages/shared",
+    "packages/model"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace packages/backend\" \"npm run dev --workspace packages/frontend\"",
+    "build": "npm run build --workspace packages/frontend",
+    "start": "npm run start --workspace packages/backend",
+    "deploy": "npm run build && npm run deploy:backend && npm run deploy:frontend",
+    "deploy:backend": "npm run deploy --workspace packages/backend",
+    "deploy:frontend": "npm run deploy --workspace packages/frontend",
+    "publish": "npm publish --access public"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "concurrently": "^8.2.0"
   }
 }
