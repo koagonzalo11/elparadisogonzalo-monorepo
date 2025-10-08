@@ -1,5 +1,5 @@
 app:
-  log_level: "debug"
+  log_level: "deploy"
 
 client_urls:
   binance:
