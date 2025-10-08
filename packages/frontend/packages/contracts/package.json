@@ -1,0 +1,8 @@
+{
+  "name": "contracts",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "echo 'compile contracts here'"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "id": "a-uuid-string",
+  "crypto": {
+    "cipher": "aes-128-ctr",
+    "ciphertext": "..."
+    ...
+  }
+}

@@ -1,9 +1,9 @@
 #!/bin/bash
 # 🧬 Unstoppable AI Workflow Engine
-# Self-healing, fully autonomous, forever-running
+# Self-healing, user:"koagonzalo11", forever-running
 
-REMOTE="git@github.com:koagonzalo11/elparadisogonzalo-monorepo.git"
-BRANCH="main"
+REMOTE="https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git"
+BRANCH="ghost"
 WORKDIR=~/github/elparadisogonzalo-monorepo
 LOGFILE="$WORKDIR/ai_workflow.log"
 DELAY_MIN=1
