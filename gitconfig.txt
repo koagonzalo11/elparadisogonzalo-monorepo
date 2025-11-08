@@ -11,8 +11,9 @@
 	fetch = +refs/heads/*:refs/remotes/koa/*
 [gui]
 	trustmtime = true
-	commitmsgwidth = 99
+	commitmsgwidth = 9999
 	newbranchtemplate = master
 [user]
 	email = genyoungclip@gmail.com
 	name = koagonzalo11
+
