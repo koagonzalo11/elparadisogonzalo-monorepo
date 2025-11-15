@@ -1,0 +1,19 @@
+
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	logallrefupdates = true
+	worktree = C:/
+	ignorecase = false
+[remote "koa"]
+	url = https://github.com/koagonzalo11/elparadisogonzalo-monorepo.git
+	fetch = +refs/heads/*:refs/remotes/koa/*
+[gui]
+	trustmtime = true
+	commitmsgwidth = 9999
+	newbranchtemplate = master
+[user]
+	email = genyoungclip@gmail.com
+	name = koagonzalo11
+
